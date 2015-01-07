@@ -11,8 +11,11 @@ import java.nio.file.Path;
  */
 public class ImdiDiffRunner {
 
+    public final static ImdiDiffer DIFFER = new ImdiDifferImpl();
+
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException in case of read failure or missing file
      */
     public static void main(String[] args) throws IOException {
         if (args.length != 2) {
@@ -21,9 +24,9 @@ public class ImdiDiffRunner {
         }
         final Path dir1 = getDirectory(args[0]);
         final Path dir2 = getDirectory(args[1]);
-        
-        final ImdiDiffer differ = new ImdiDiffer(dir1, dir2);
-        differ.diff();
+
+        final ImdiDiffVisitor differ = new ImdiDiffVisitor(dir1, dir2, DIFFER);
+        differ.walk();
     }
 
     private static Path getDirectory(String dir) {
