@@ -10,6 +10,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 /**
  * File visitor that walks two parallel IMDI directory hierarchies and compares
@@ -55,11 +56,16 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
 
         if (Files.exists(target)) {
             logger.debug("Comparing {} to {}", source, target);
-            final List<String> diff = imdiDiffer.compare(source, target);
-            if (diff.size() > 0) {
-                logger.info("Differences for {}:\n{}", relativePath, diff);
+            try {
+                final List<String> diff = imdiDiffer.compare(source, target);
+                if (diff.size() > 0) {
+                    logger.info("Differences for {}:\n{}", relativePath, diff);
+                }
+                return FileVisitResult.CONTINUE;
+            } catch (SAXException ex) {
+                logger.error("Fatal error while parsing: {}", ex.getMessage());
+                throw new RuntimeException(ex);
             }
-            return FileVisitResult.CONTINUE;
         } else {
             logger.error("No matching file found in target directory for {}\n\t(expected to find {})", source, target);
             throw new FileNotFoundException(target.toString());
