@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.List;
+import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -19,12 +19,15 @@ import org.xml.sax.SAXException;
  * @author Twan Goosen <twan.goosen@mpi.nl>
  */
 class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
-    
+
     private final static Logger logger = LoggerFactory.getLogger(ImdiDiffVisitor.class);
-    
+
     private final Path sourceDir;
     private final Path targetDir;
     private final ImdiDiffer imdiDiffer;
+
+    private int diffCount;
+    private int fileCount;
 
     /**
      *
@@ -39,11 +42,13 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
         this.targetDir = target;
         this.imdiDiffer = imdiDiffer;
     }
-    
+
     void walk() throws IOException {
+        diffCount = fileCount = 0;
         Files.walkFileTree(sourceDir, this);
+        logger.info("Total number of differences found: {} in {} files", diffCount, fileCount);
     }
-    
+
     @Override
     public FileVisitResult visitFile(Path source, BasicFileAttributes attrs) throws IOException {
         if (!isImdiFile(source)) {
@@ -51,18 +56,21 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
             return FileVisitResult.CONTINUE;
         }
 
+        fileCount++;
+
         // construct target path for comparison (same relative path in target dir)
         final Path relativePath = sourceDir.relativize(source);
         final Path target = targetDir.resolve(relativePath);
-        
+
         if (Files.exists(target)) {
             logger.debug("Comparing {} to {}", source, target);
             try {
-                final List<String> differences = imdiDiffer.compare(source, target);
+                final Collection<String> differences = imdiDiffer.compare(source, target);
                 logger.info("Found {} differences for {}", differences.size(), relativePath);
                 for (String diff : differences) {
                     logger.warn("{}: {}", relativePath, diff);
                 }
+                diffCount += differences.size();
                 return FileVisitResult.CONTINUE;
             } catch (SAXException ex) {
                 logger.error("Fatal error while parsing: {}", ex.getMessage());
@@ -73,9 +81,9 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
             throw new FileNotFoundException(target.toString());
         }
     }
-    
+
     private boolean isImdiFile(Path source) {
         return source.getFileName().toString().toLowerCase().endsWith(".imdi");
     }
-    
+
 }

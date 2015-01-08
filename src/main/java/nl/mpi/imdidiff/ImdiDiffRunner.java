@@ -1,9 +1,11 @@
 package nl.mpi.imdidiff;
 
+import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Set;
 
 /**
  *
@@ -11,7 +13,7 @@ import java.nio.file.Path;
  */
 public class ImdiDiffRunner {
 
-    public final static ImdiDiffer DIFFER = new ImdiDifferImpl();
+    public final static Set<String> PATHS_TO_IGNORE = ImmutableSet.of();
 
     /**
      * @param args the command line arguments
@@ -25,9 +27,11 @@ public class ImdiDiffRunner {
         final Path dir1 = getDirectory(args[0]);
         final Path dir2 = getDirectory(args[1]);
 
-        DIFFER.initialise();
-        final ImdiDiffVisitor differ = new ImdiDiffVisitor(dir1, dir2, DIFFER);
-        differ.walk();
+        final ImdiDiffer differ = new ImdiDifferImpl(PATHS_TO_IGNORE);
+        differ.initialise();
+
+        final ImdiDiffVisitor visitor = new ImdiDiffVisitor(dir1, dir2, differ);
+        visitor.walk();
     }
 
     private static Path getDirectory(String dir) {

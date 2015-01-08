@@ -7,7 +7,7 @@ package nl.mpi.imdidiff;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.Collection;
 import org.xml.sax.SAXException;
 
 /**
@@ -18,6 +18,6 @@ public interface ImdiDiffer {
 
     void initialise();
     
-    List<String> compare(Path source, Path target) throws IOException, SAXException;
+    Collection<String> compare(Path source, Path target) throws IOException, SAXException;
     
 }
