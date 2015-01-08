@@ -16,6 +16,8 @@ import org.xml.sax.SAXException;
  */
 public interface ImdiDiffer {
 
+    void initialise();
+    
     List<String> compare(Path source, Path target) throws IOException, SAXException;
     
 }

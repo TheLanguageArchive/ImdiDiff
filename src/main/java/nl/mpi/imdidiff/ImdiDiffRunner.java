@@ -25,6 +25,7 @@ public class ImdiDiffRunner {
         final Path dir1 = getDirectory(args[0]);
         final Path dir2 = getDirectory(args[1]);
 
+        DIFFER.initialise();
         final ImdiDiffVisitor differ = new ImdiDiffVisitor(dir1, dir2, DIFFER);
         differ.walk();
     }

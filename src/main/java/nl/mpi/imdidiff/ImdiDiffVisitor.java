@@ -32,6 +32,7 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
      * the filesystem
      * @param target target directory; assumed to be an existing directory on
      * the filesystem that reflects the structure of dir1
+     * @param imdiDiffer an initialised IMDI comparator
      */
     public ImdiDiffVisitor(Path source, Path target, ImdiDiffer imdiDiffer) {
         this.sourceDir = source;
