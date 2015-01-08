@@ -19,9 +19,9 @@ import org.xml.sax.SAXException;
  * @author Twan Goosen <twan.goosen@mpi.nl>
  */
 class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
-
+    
     private final static Logger logger = LoggerFactory.getLogger(ImdiDiffVisitor.class);
-
+    
     private final Path sourceDir;
     private final Path targetDir;
     private final ImdiDiffer imdiDiffer;
@@ -39,11 +39,11 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
         this.targetDir = target;
         this.imdiDiffer = imdiDiffer;
     }
-
+    
     void walk() throws IOException {
         Files.walkFileTree(sourceDir, this);
     }
-
+    
     @Override
     public FileVisitResult visitFile(Path source, BasicFileAttributes attrs) throws IOException {
         if (!isImdiFile(source)) {
@@ -54,13 +54,14 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
         // construct target path for comparison (same relative path in target dir)
         final Path relativePath = sourceDir.relativize(source);
         final Path target = targetDir.resolve(relativePath);
-
+        
         if (Files.exists(target)) {
             logger.debug("Comparing {} to {}", source, target);
             try {
-                final List<String> diff = imdiDiffer.compare(source, target);
-                if (diff.size() > 0) {
-                    logger.info("Differences for {}:\n{}", relativePath, diff);
+                final List<String> differences = imdiDiffer.compare(source, target);
+                logger.info("Found {} differences for {}", differences.size(), relativePath);
+                for (String diff : differences) {
+                    logger.warn("{}: {}", relativePath, diff);
                 }
                 return FileVisitResult.CONTINUE;
             } catch (SAXException ex) {
@@ -72,9 +73,9 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
             throw new FileNotFoundException(target.toString());
         }
     }
-
+    
     private boolean isImdiFile(Path source) {
         return source.getFileName().toString().toLowerCase().endsWith(".imdi");
     }
-
+    
 }
