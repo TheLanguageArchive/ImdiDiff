@@ -1,24 +1,15 @@
 package nl.mpi.imdidiff;
 
-import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 /**
  *
  * @author Twan Goosen <twan.goosen@mpi.nl>
  */
 public class ImdiDiffRunner {
-
-    public final static Set<Pattern> PATHS_TO_IGNORE = ImmutableSet.of(
-            Pattern.compile(".*/@Type"),
-            Pattern.compile(".*/@Link"),
-            Pattern.compile("/METATRANSCRIPT\\[1\\]/@Originator")
-    );
 
     /**
      * @param args the command line arguments
@@ -32,7 +23,7 @@ public class ImdiDiffRunner {
         final Path dir1 = getDirectory(args[0]);
         final Path dir2 = getDirectory(args[1]);
 
-        final ImdiDiffer differ = new ImdiDifferImpl(PATHS_TO_IGNORE);
+        final ImdiDiffer differ = new ImdiDifferImpl();
         differ.initialise();
 
         final ImdiDiffVisitor visitor = new ImdiDiffVisitor(dir1, dir2, differ);
