@@ -3,12 +3,14 @@ package nl.mpi.imdidiff;
 import com.google.common.base.Converter;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 import org.custommonkey.xmlunit.DetailedDiff;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.Difference;
@@ -29,7 +31,7 @@ public class ImdiDifferImpl implements ImdiDiffer {
     private final static Logger logger = LoggerFactory.getLogger(ImdiDifferImpl.class);
     private final DifferenceListener diffListener;
 
-    public ImdiDifferImpl(Set<String> pathsToIgnore) {
+    public ImdiDifferImpl(Set<Pattern> pathsToIgnore) {
         this.diffListener = new ImdiDifferenceListener(pathsToIgnore);
     }
 
@@ -51,7 +53,7 @@ public class ImdiDifferImpl implements ImdiDiffer {
         detailedDiff.overrideDifferenceListener(diffListener);
 
         final List<Difference> differences = detailedDiff.getAllDifferences();
-        
+
         // filter out acceptable similarities
         final Collection<Difference> unsimilar = Collections2.filter(differences, new Predicate<Difference>() {
 
@@ -60,7 +62,7 @@ public class ImdiDifferImpl implements ImdiDiffer {
                 return !input.isRecoverable();
             }
         });
-        
+
         // apply toString to all differences
         return Collections2.transform(unsimilar, new Converter<Difference, String>() {
 
@@ -78,19 +80,32 @@ public class ImdiDifferImpl implements ImdiDiffer {
 
     private static class ImdiDifferenceListener implements DifferenceListener {
 
-        private final Set<String> skippedPaths;
+        private final Set<Pattern> skippedPathPatterns;
 
-        public ImdiDifferenceListener(Set<String> skippedPaths) {
-            this.skippedPaths = skippedPaths;
+        public ImdiDifferenceListener(Set<Pattern> skippedPathPatterns) {
+            this.skippedPathPatterns = skippedPathPatterns;
         }
 
         @Override
         public int differenceFound(Difference difference) {
-            if (skippedPaths.contains(difference.getTestNodeDetail().getXpathLocation())) {
+            final String xpathLocation = difference.getTestNodeDetail().getXpathLocation();
+            if (matchesIgnoredPathPatterns(xpathLocation)) {
                 return RETURN_IGNORE_DIFFERENCE_NODES_SIMILAR;
             } else {
                 return DifferenceListener.RETURN_ACCEPT_DIFFERENCE;
             }
+        }
+
+        private boolean matchesIgnoredPathPatterns(final String xpathLocation) {
+            // does any of the skipped path patterns match the provided path?
+            return Iterables.any(skippedPathPatterns, new Predicate<Pattern>() {
+
+                @Override
+                public boolean apply(Pattern input) {
+                    return input.matcher(xpathLocation).matches();
+                }
+
+            });
         }
 
         @Override

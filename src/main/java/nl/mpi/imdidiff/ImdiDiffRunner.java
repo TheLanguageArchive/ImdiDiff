@@ -6,6 +6,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -13,7 +14,7 @@ import java.util.Set;
  */
 public class ImdiDiffRunner {
 
-    public final static Set<String> PATHS_TO_IGNORE = ImmutableSet.of();
+    public final static Set<Pattern> PATHS_TO_IGNORE = ImmutableSet.of();
 
     /**
      * @param args the command line arguments
