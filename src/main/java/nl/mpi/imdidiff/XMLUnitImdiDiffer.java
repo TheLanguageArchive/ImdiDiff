@@ -22,7 +22,6 @@ import org.custommonkey.xmlunit.XMLUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Attr;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
@@ -32,7 +31,7 @@ import org.xml.sax.SAXException;
  *
  * @author Twan Goosen <twan.goosen@mpi.nl>
  */
-public class ImdiDifferImpl implements ImdiDiffer {
+public class XMLUnitImdiDiffer implements ImdiDiffer {
 
     public final static Set<Pattern> PATHS_TO_IGNORE = ImmutableSet.of(
             Pattern.compile(".*/@Type"),
@@ -48,10 +47,10 @@ public class ImdiDifferImpl implements ImdiDiffer {
             DifferenceConstants.ATTR_NAME_NOT_FOUND_ID
     );
 
-    private final static Logger logger = LoggerFactory.getLogger(ImdiDifferImpl.class);
+    private final static Logger logger = LoggerFactory.getLogger(XMLUnitImdiDiffer.class);
     private final DifferenceListener diffListener;
 
-    public ImdiDifferImpl() {
+    public XMLUnitImdiDiffer() {
         this.diffListener = new ImdiDifferenceListener();
     }
 
