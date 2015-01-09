@@ -8,6 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collection;
+import java.util.logging.Level;
+import javax.xml.transform.TransformerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -74,6 +76,9 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
                 return FileVisitResult.CONTINUE;
             } catch (SAXException ex) {
                 logger.error("Fatal error while parsing: {}", ex.getMessage());
+                throw new RuntimeException(ex);
+            } catch (TransformerException ex) {
+                logger.error("Fatal error while transforming: {}", ex.getMessage());
                 throw new RuntimeException(ex);
             }
         } else {

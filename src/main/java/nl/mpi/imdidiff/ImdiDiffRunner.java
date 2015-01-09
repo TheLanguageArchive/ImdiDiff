@@ -23,7 +23,8 @@ public class ImdiDiffRunner {
         final Path dir1 = getDirectory(args[0]);
         final Path dir2 = getDirectory(args[1]);
 
-        final ImdiDiffer differ = new XMLUnitImdiDiffer();
+//        final ImdiDiffer differ = new XMLUnitImdiDiffer();
+        final ImdiDiffer differ = new NormalisingImdiDiffer();
         differ.initialise();
 
         final ImdiDiffVisitor visitor = new ImdiDiffVisitor(dir1, dir2, differ);

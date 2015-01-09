@@ -20,7 +20,7 @@
         <xsl:attribute name="ArchiveHandle" select="concat(., '@format=imdi')" />
     </xsl:template>
     
-    <xsl:template match="@Originator | @xsi:schemaLocation">
+    <xsl:template match="/METATRANSCRIPT/@Originator | /METATRANSCRIPT/@Version | /METATRANSCRIPT/@xsi:schemaLocation">
         <!-- ignore some root node attributes -->
     </xsl:template>
     
@@ -35,6 +35,11 @@
     <xsl:template match="@LanguageId">
         <!-- remove language code scheme -->
         <xsl:attribute name="LanguageId" select="substring-after(.,':')" />
+    </xsl:template>
+    
+    <xsl:template match="ResourceLink/text()">
+        <!-- Remove everything up to last slash from resource link -->
+        <xsl:value-of select="replace(.,'.*/','')" />
     </xsl:template>
     
 </xsl:stylesheet>

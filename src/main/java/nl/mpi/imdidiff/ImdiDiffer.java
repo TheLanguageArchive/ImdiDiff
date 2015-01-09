@@ -8,6 +8,7 @@ package nl.mpi.imdidiff;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collection;
+import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
 
 /**
@@ -18,6 +19,6 @@ public interface ImdiDiffer {
 
     void initialise();
     
-    Collection<String> compare(Path source, Path target) throws IOException, SAXException;
+    Collection<String> compare(Path source, Path target) throws IOException, SAXException, TransformerException;
     
 }
