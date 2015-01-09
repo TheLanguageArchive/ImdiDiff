@@ -11,12 +11,14 @@
     <xsl:strip-space elements="*"/>
     
     <xsl:template match="node() | @*">
+        <!-- base case: copy all child nodes and attributes recursively -->
         <xsl:copy>
             <xsl:apply-templates select="@* | node()" />
         </xsl:copy>
     </xsl:template>
     
     <xsl:template match="METATRANSCRIPT/@ArchiveHandle[not(ends-with(., '@format=imdi'))]">
+        <!-- add @format=imdi to self handle -->
         <xsl:attribute name="ArchiveHandle" select="concat(., '@format=imdi')" />
     </xsl:template>
     
