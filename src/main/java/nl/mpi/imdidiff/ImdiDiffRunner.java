@@ -14,7 +14,11 @@ import java.util.regex.Pattern;
  */
 public class ImdiDiffRunner {
 
-    public final static Set<Pattern> PATHS_TO_IGNORE = ImmutableSet.of();
+    public final static Set<Pattern> PATHS_TO_IGNORE = ImmutableSet.of(
+            Pattern.compile(".*/@Type"),
+            Pattern.compile(".*/@Link"),
+            Pattern.compile("/METATRANSCRIPT\\[1\\]/@Originator")
+    );
 
     /**
      * @param args the command line arguments

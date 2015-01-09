@@ -88,8 +88,9 @@ public class ImdiDifferImpl implements ImdiDiffer {
 
         @Override
         public int differenceFound(Difference difference) {
-            final String xpathLocation = difference.getTestNodeDetail().getXpathLocation();
-            if (matchesIgnoredPathPatterns(xpathLocation)) {
+            final String controlLocation = difference.getControlNodeDetail().getXpathLocation();
+            final String testLocation = difference.getTestNodeDetail().getXpathLocation();
+            if (matchesIgnoredPathPatterns(controlLocation) || matchesIgnoredPathPatterns(testLocation)) {
                 return RETURN_IGNORE_DIFFERENCE_NODES_SIMILAR;
             } else {
                 return DifferenceListener.RETURN_ACCEPT_DIFFERENCE;
@@ -97,20 +98,24 @@ public class ImdiDifferImpl implements ImdiDiffer {
         }
 
         private boolean matchesIgnoredPathPatterns(final String xpathLocation) {
-            // does any of the skipped path patterns match the provided path?
-            return Iterables.any(skippedPathPatterns, new Predicate<Pattern>() {
+            if (xpathLocation == null) {
+                return false;
+            } else {
+                // does any of the skipped path patterns match the provided path?
+                return Iterables.any(skippedPathPatterns, new Predicate<Pattern>() {
 
-                @Override
-                public boolean apply(Pattern input) {
-                    return input.matcher(xpathLocation).matches();
-                }
+                    @Override
+                    public boolean apply(Pattern input) {
+                        return input.matcher(xpathLocation).matches();
+                    }
 
-            });
+                });
+            }
         }
 
         @Override
         public void skippedComparison(Node arg0, Node arg1) {
-            logger.trace("Skipping comparison for {} and {}", arg0.getNodeName(), arg1.getNodeName());
+            logger.trace("Skipped comparison for {} and {}", arg0.getNodeName(), arg1.getNodeName());
         }
 
     }
