@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collection;
-import java.util.logging.Level;
 import javax.xml.transform.TransformerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +29,7 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
 
     private int diffCount;
     private int fileCount;
+    private int diffFileCount;
 
     /**
      *
@@ -46,9 +46,9 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
     }
 
     void walk() throws IOException {
-        diffCount = fileCount = 0;
+        diffCount = fileCount = diffFileCount = 0;
         Files.walkFileTree(sourceDir, this);
-        logger.info("Total number of differences found: {} in {} files", diffCount, fileCount);
+        logger.info("Total number of differences found: {} in {} of {} files", diffCount, diffFileCount, fileCount);
     }
 
     @Override
@@ -68,11 +68,14 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
             logger.debug("Comparing {} to {}", source, target);
             try {
                 final Collection<String> differences = imdiDiffer.compare(source, target);
-                logger.info("Found {} differences for {}", differences.size(), relativePath);
-                for (String diff : differences) {
-                    logger.warn("{}: {}", relativePath, diff);
+                if (differences.size() > 0) {
+                    logger.info("Found {} differences for {}", differences.size(), relativePath);
+                    for (String diff : differences) {
+                        logger.warn("{}: {}", relativePath, diff);
+                    }
+                    diffFileCount++;
+                    diffCount += differences.size();
                 }
-                diffCount += differences.size();
                 return FileVisitResult.CONTINUE;
             } catch (SAXException ex) {
                 logger.error("Fatal error while parsing: {}", ex.getMessage());
