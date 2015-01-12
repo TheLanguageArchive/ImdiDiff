@@ -34,7 +34,7 @@
         <!-- ignore empty elements -->
     </xsl:template>
     
-    <xsl:template match="@LanguageId">
+    <xsl:template match="@LanguageId[contains(.,':')]">
         <!-- remove language code scheme -->
         <xsl:attribute name="LanguageId" select="substring-after(.,':')" />
     </xsl:template>
