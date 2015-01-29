@@ -7,6 +7,7 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
@@ -64,8 +65,8 @@ public class XMLUnitImdiDiffer implements ImdiDiffer {
 
     @Override
     public Collection<String> compare(Path source, Path target) throws IOException, SAXException {
-        final InputSource sourceStream = new InputSource(Files.newBufferedReader(source));
-        final InputSource targetStream = new InputSource(Files.newBufferedReader(target));
+        final InputSource sourceStream = new InputSource(Files.newBufferedReader(source, StandardCharsets.UTF_8));
+        final InputSource targetStream = new InputSource(Files.newBufferedReader(target, StandardCharsets.UTF_8));
 
         final Diff diff = XMLUnit.compareXML(sourceStream, targetStream);
         final DetailedDiff detailedDiff = new DetailedDiff(diff);

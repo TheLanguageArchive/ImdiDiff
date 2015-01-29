@@ -5,6 +5,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
@@ -85,7 +86,7 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
 
     private String normalise(Path source) throws IOException, TransformerException {
         final StringWriter writer = new StringWriter();
-        transformer.transform(new StreamSource(Files.newBufferedReader(source)), new StreamResult(writer));
+        transformer.transform(new StreamSource(Files.newBufferedReader(source, StandardCharsets.UTF_8)), new StreamResult(writer));
         return writer.toString();
     }
 
