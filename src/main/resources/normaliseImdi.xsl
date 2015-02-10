@@ -22,7 +22,7 @@
         <xsl:attribute name="ArchiveHandle" select="concat(., '@format=imdi')" />
     </xsl:template>
     
-    <xsl:template match="/METATRANSCRIPT/@Originator | /METATRANSCRIPT/@Version | /METATRANSCRIPT/@xsi:schemaLocation">
+    <xsl:template priority="10" match="/METATRANSCRIPT/@Originator | /METATRANSCRIPT/@Version | /METATRANSCRIPT/@xsi:schemaLocation">
         <!-- ignore some root node attributes -->
     </xsl:template>
     
