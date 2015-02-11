@@ -17,6 +17,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,6 +26,8 @@ import javax.xml.transform.stream.StreamSource;
  */
 public class RecursiveTransformer {
 
+    private final static Logger logger = LoggerFactory.getLogger(RecursiveTransformer.class);
+    
     private final Path stylesheet;
     private final Path inputPath;
     private final Path outputPath;
@@ -42,7 +46,7 @@ public class RecursiveTransformer {
                 throw new RuntimeException("Output path needs to be a directory");
             }
         } else {
-            System.err.println("Creating output directory " + outputPath);
+            logger.info("Creating output directory " + outputPath);
             Files.createDirectories(outputPath);
         }
     }
@@ -64,7 +68,7 @@ public class RecursiveTransformer {
 
         @Override
         public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-            System.err.println("Transforming files in " + dir.toString());
+            logger.info("Transforming files in " + dir.toString());
             return FileVisitResult.CONTINUE;
         }
 
@@ -72,7 +76,7 @@ public class RecursiveTransformer {
         public FileVisitResult visitFile(Path inFile, BasicFileAttributes attrs) throws IOException {
             final Path targetPath = getTargetPath(inFile);
             if (Files.exists(targetPath)) {
-                System.err.println("FATAL: Target file already exists: " + targetPath.toString());
+                logger.error("FATAL: Target file already exists: " + targetPath.toString());
                 throw new FileAlreadyExistsException(targetPath.toString());
             }
 
@@ -81,7 +85,7 @@ public class RecursiveTransformer {
             try {
                 transformer.transform(source, result);
             } catch (TransformerException ex) {
-                System.err.println("ERROR: Exception while transforming " + inFile.toString() + ":\n");
+                logger.error("ERROR: Exception while transforming " + inFile.toString() + ":\n");
                 ex.printStackTrace(System.err);
             }
             return FileVisitResult.CONTINUE;
