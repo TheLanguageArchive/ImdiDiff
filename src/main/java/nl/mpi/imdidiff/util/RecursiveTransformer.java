@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 public class RecursiveTransformer {
 
     private final static Logger logger = LoggerFactory.getLogger(RecursiveTransformer.class);
-    
+
     private final Path stylesheet;
     private final Path inputPath;
     private final Path outputPath;
@@ -40,27 +40,29 @@ public class RecursiveTransformer {
         this.outputPath = outputPath;
         this.inputExtension = inputExtension;
         this.outputExtension = outputExtension;
+    }
 
+    public void transform() throws IOException, TransformerConfigurationException {
+        // Check paths
         if (Files.exists(outputPath)) {
             if (!Files.isDirectory(outputPath)) {
                 throw new RuntimeException("Output path needs to be a directory");
             }
         } else {
+            // Directory does not exist yet, so create
             logger.info("Creating output directory " + outputPath);
             Files.createDirectories(outputPath);
         }
+
+        // Walk the file tree with our custom visitor
+        Files.walkFileTree(inputPath, new TransformingVisitor());
     }
 
-    public void transform() throws IOException, TransformerConfigurationException {
-        final SimpleFileVisitor<Path> visitor = new TransformationVisitor();
-        Files.walkFileTree(inputPath, visitor);
-    }
-
-    private class TransformationVisitor extends SimpleFileVisitor<Path> {
+    private class TransformingVisitor extends SimpleFileVisitor<Path> {
 
         private final Transformer transformer;
 
-        public TransformationVisitor() throws TransformerConfigurationException {
+        public TransformingVisitor() throws TransformerConfigurationException {
             final TransformerFactory tff = TransformerFactory.newInstance();
             Source stylesheetSource = new StreamSource(stylesheet.toFile());
             transformer = tff.newTransformer(stylesheetSource);
