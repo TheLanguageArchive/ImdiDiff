@@ -76,7 +76,6 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
                     diffFileCount++;
                     diffCount += differences.size();
                 }
-                return FileVisitResult.CONTINUE;
             } catch (SAXException ex) {
                 logger.error("Fatal error while parsing: {}", ex.getMessage());
                 throw new RuntimeException(ex);
@@ -85,9 +84,9 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
                 throw new RuntimeException(ex);
             }
         } else {
-            logger.error("No matching file found in target directory for {}\n\t(expected to find {})", source, target);
-            throw new FileNotFoundException(target.toString());
+            logger.warn("No matching file found in target directory for {}\n\t(expected to find {})", source, target);
         }
+        return FileVisitResult.CONTINUE;
     }
 
     private boolean isImdiFile(Path source) {
