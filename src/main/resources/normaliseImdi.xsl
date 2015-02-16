@@ -17,12 +17,12 @@
         </xsl:copy>
     </xsl:template>
     
-    <xsl:template match="METATRANSCRIPT/@ArchiveHandle[not(ends-with(., '@format=imdi'))]">
+    <xsl:template match="METATRANSCRIPT/@ArchiveHandle[not(ends-with(., '@format=imdi'))]|CorpusLink/@ArchiveHandle[not(ends-with(., '@format=imdi'))]">
         <!-- add @format=imdi to self handle -->
         <xsl:attribute name="ArchiveHandle" select="concat(., '@format=imdi')" />
     </xsl:template>
     
-    <xsl:template priority="10" match="/METATRANSCRIPT/@Originator | /METATRANSCRIPT/@Version | /METATRANSCRIPT/@xsi:schemaLocation">
+    <xsl:template priority="10" match="/METATRANSCRIPT/@Originator | /METATRANSCRIPT/@Version | /METATRANSCRIPT/@xsi:schemaLocation | /METATRANSCRIPT/History">
         <!-- ignore some root node attributes -->
     </xsl:template>
     
@@ -34,6 +34,11 @@
         <!-- ignore empty elements -->
     </xsl:template>
     
+    
+    <xsl:template match="@ResourceRef|@ResourceId">
+        <!-- Resource references and id's will not be similar, so ignore -->
+    </xsl:template>
+    
     <xsl:template match="@LanguageId[contains(.,':')]">
         <!-- remove language code scheme -->
         <xsl:attribute name="LanguageId" select="substring-after(.,':')" />
@@ -42,6 +47,14 @@
     <xsl:template match="ResourceLink/text()">
         <!-- Remove everything up to last slash from resource link -->
         <xsl:value-of select="replace(.,'.*/','')" />
+    </xsl:template>
+    
+    <xsl:template match="CorpusLink/text()">
+        <!-- Remove everything up to last slash from resource link and remove translation service -->
+        <xsl:value-of select="
+            replace(
+                replace(.,'.*(/|%2F)',''),
+                '.cmdi&amp;outFormat=imdi', '.imdi')" />
     </xsl:template>
     
 </xsl:stylesheet>
