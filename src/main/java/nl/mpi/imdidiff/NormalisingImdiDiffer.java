@@ -74,7 +74,7 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
 
             @Override
             protected String doForward(Difference a) {
-                return a.toString();
+                return String.format("ID%d - %s", a.getId(), a.toString());
             }
 
             @Override
