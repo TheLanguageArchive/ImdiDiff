@@ -22,7 +22,7 @@
         <xsl:attribute name="ArchiveHandle" select="concat(., '@format=imdi')" />
     </xsl:template>
     
-    <xsl:template priority="10" match="/METATRANSCRIPT/@Originator | /METATRANSCRIPT/@Version | /METATRANSCRIPT/@xsi:schemaLocation | /METATRANSCRIPT/History">
+    <xsl:template priority="10" match="/METATRANSCRIPT/@Originator | /METATRANSCRIPT/@Version | /METATRANSCRIPT/@xsi:schemaLocation | /METATRANSCRIPT/@FormatId | /METATRANSCRIPT/History">
         <!-- ignore some root node attributes -->
     </xsl:template>
     
@@ -41,6 +41,10 @@
     
     <xsl:template match="@ResourceRef|@ResourceId">
         <!-- Resource references and id's will not be similar, so ignore -->
+    </xsl:template>
+    
+    <xsl:template match="@XXX-Type|@XXX-Multiple">
+        <!-- Ignore these attributes (used in DBD and maybe other corpora) -->
     </xsl:template>
     
     <xsl:template match="@LanguageId[contains(.,':')]">
