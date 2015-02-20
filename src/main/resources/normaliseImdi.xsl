@@ -30,10 +30,14 @@
         <!-- ignore vocab link and vocab type (not @Type on root node)-->
     </xsl:template>
     
-    <xsl:template match="node()[normalize-space(.) = ''] | @*[normalize-space(.) = '']">
-        <!-- ignore empty elements -->
+    <xsl:template priority="10" match="node()[normalize-space(.) = '' and @Type = 'ClosedVocabulary']">
+        <!-- Add 'unspecified' value for empty nodes with closed vocab -->
+        <xsl:element name="{name(.)}" namespace="{namespace-uri(.)}">Unspecified</xsl:element>
     </xsl:template>
     
+    <xsl:template match="node()[count(descendant::*[@Type = 'ClosedVocabulary']) = 0 and normalize-space(.) = ''] | @*[normalize-space(.) = '']">
+        <!-- ignore empty elements without children -->
+    </xsl:template>
     
     <xsl:template match="@ResourceRef|@ResourceId">
         <!-- Resource references and id's will not be similar, so ignore -->
