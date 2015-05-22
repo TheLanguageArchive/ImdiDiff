@@ -29,7 +29,6 @@
     <xsl:template match="@Link | /METATRANSCRIPT/*//@Type">
         <!-- ignore vocab link and vocab type (not @Type on root node)-->
     </xsl:template>    
-    <!-- Empty field with 'closed vocabulary' type should be normalised to 'Unspecified' in a number of cases -->
     
     <xsl:template match="@ResourceRef|@ResourceId">
         <!-- Resource references and id's will not be similar, so ignore -->
