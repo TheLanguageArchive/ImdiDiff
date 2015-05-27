@@ -1,6 +1,5 @@
 package nl.mpi.imdidiff;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -77,11 +76,9 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
                     diffCount += differences.size();
                 }
             } catch (SAXException ex) {
-                logger.error("Fatal error while parsing: {}", ex.getMessage());
-                throw new RuntimeException(ex);
+                logger.error("Fatal error while parsing, file skipped", ex);
             } catch (TransformerException ex) {
-                logger.error("Fatal error while transforming: {}", ex.getMessage());
-                throw new RuntimeException(ex);
+                logger.error("Fatal error while transforming, file skipped", ex);
             }
         } else {
             logger.warn("No matching file found in target directory for {}\n\t(expected to find {})", source, target);
