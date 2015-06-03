@@ -2,6 +2,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:sil="http://www.sil.org/"
     exclude-result-prefixes="xs"
     xpath-default-namespace="http://www.mpi.nl/IMDI/Schema/IMDI"
     
@@ -47,8 +48,21 @@
     </xsl:template>
     
     <xsl:template match="@LanguageId[contains(.,':')]">
-        <!-- remove language code scheme -->
-        <xsl:attribute name="LanguageId" select="substring-after(.,':')" />
+        <xsl:choose>
+            <xsl:when test=". = 'ISO639:en'">
+                <xsl:attribute name="LanguageId">eng</xsl:attribute>                
+            </xsl:when>
+            <xsl:when test=". = 'ISO639-2:ger'">
+                <xsl:attribute name="LanguageId">deu</xsl:attribute>                
+            </xsl:when>
+            <xsl:when test=". = 'ISO639-2:dut'">
+                <xsl:attribute name="LanguageId">nld</xsl:attribute>                
+            </xsl:when>
+            <xsl:otherwise>
+                <!-- remove language code scheme -->
+                <xsl:attribute name="LanguageId" select="substring-after(.,':')" />                
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     
     <xsl:template match="ResourceLink/text()">
