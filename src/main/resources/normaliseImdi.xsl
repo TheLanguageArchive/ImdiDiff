@@ -42,7 +42,7 @@
         <!-- Resource references and id's will not be similar, so ignore -->
     </xsl:template>
     
-    <xsl:template match="@XXX-Type|@XXX-Multiple">
+    <xsl:template match="@XXX-Type|@XXX-Multiple|@XXX-Tag|@XXX-Visible|@XXX-HelpText">
         <!-- Ignore these attributes (used in DBD and maybe other corpora) -->
     </xsl:template>
     
