@@ -17,6 +17,14 @@
         </xsl:copy>
     </xsl:template>
     
+    <xsl:template match="METATRANSCRIPT/@Type[normalize-space(.) = 'CORPUS.Profile']">
+        <xsl:attribute name="Type">CORPUS</xsl:attribute>
+    </xsl:template>
+    
+    <xsl:template match="METATRANSCRIPT/@Type[normalize-space(.) = 'SESSION.Profile']">
+        <xsl:attribute name="Type">SESSION</xsl:attribute>
+    </xsl:template>
+    
     <xsl:template match="METATRANSCRIPT/@ArchiveHandle[not(ends-with(., '@format=imdi'))]|CorpusLink/@ArchiveHandle[not(ends-with(., '@format=imdi'))]">
         <!-- add @format=imdi to self handle -->
         <xsl:attribute name="ArchiveHandle" select="concat(., '@format=imdi')" />
