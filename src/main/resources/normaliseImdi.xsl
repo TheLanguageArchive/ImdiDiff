@@ -33,6 +33,11 @@
     
     <xsl:template priority="10" match="/METATRANSCRIPT/@Originator | /METATRANSCRIPT/@Version | /METATRANSCRIPT/@xsi:schemaLocation | /METATRANSCRIPT/@FormatId | /METATRANSCRIPT/History">
         <!-- ignore some root node attributes -->
+    </xsl:template>    
+    
+    <xsl:template match="Anonyms">
+        <!-- ignore anonyms (for now)-->
+        <!-- TODO: Anonyms may need to be removed from original IMDIs, revisit! -->
     </xsl:template>
     
     <xsl:template match="@Link | /METATRANSCRIPT/*//@Type">
