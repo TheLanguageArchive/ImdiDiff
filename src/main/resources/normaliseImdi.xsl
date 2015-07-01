@@ -31,10 +31,16 @@
         <xsl:attribute name="ArchiveHandle" select="concat(., '@format=imdi')" />
     </xsl:template>
     
-    <xsl:template priority="10" match="/METATRANSCRIPT/@Originator | /METATRANSCRIPT/@Version | /METATRANSCRIPT/@xsi:schemaLocation | /METATRANSCRIPT/@FormatId | /METATRANSCRIPT/History">
+    <xsl:template priority="10" match="/METATRANSCRIPT/@Originator | /METATRANSCRIPT/@Version | /METATRANSCRIPT/@xsi:schemaLocation | /METATRANSCRIPT/@FormatId | /METATRANSCRIPT/History | /METATRANSCRIPT/Corpus/@CorpusStructureService">
         <!-- ignore some root node attributes -->
     </xsl:template>    
     
+    <xsl:template priority="10" match="Corpus/@CorpusStructureService | Corpus/@CatalogueHandle | Corpus/@CatalogueLink">
+        <!-- ignore some root node attributes -->
+    </xsl:template>    
+    
+
+
     <xsl:template match="Anonyms">
         <!-- ignore anonyms (for now)-->
         <!-- TODO: Anonyms may need to be removed from original IMDIs, revisit! -->
@@ -88,6 +94,7 @@
     <xsl:template match="node()[count(descendant::*[@Type = 'ClosedVocabulary']) = 0 and normalize-space(.) = ''] | @*[normalize-space(.) = '']">
         <!-- ignore empty elements without children -->
     </xsl:template>
+    
     
     <!-- Exceptional cases where an empty value should get normalised to 'unspecified' (these are generally of the closed vocabulary type) -->     
     <xsl:template priority="10" match="
