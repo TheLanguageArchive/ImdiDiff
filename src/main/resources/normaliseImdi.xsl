@@ -31,21 +31,21 @@
         <xsl:attribute name="ArchiveHandle" select="concat(., '@format=imdi')" />
     </xsl:template>
     
-    <xsl:template priority="10" match="/METATRANSCRIPT/@Originator | /METATRANSCRIPT/@Version | /METATRANSCRIPT/@xsi:schemaLocation | /METATRANSCRIPT/@FormatId | /METATRANSCRIPT/History | /METATRANSCRIPT/Corpus/@CorpusStructureService">
+    <xsl:template priority="30" match="/METATRANSCRIPT/@Originator | /METATRANSCRIPT/@Version | /METATRANSCRIPT/@xsi:schemaLocation | /METATRANSCRIPT/@FormatId | /METATRANSCRIPT/History | /METATRANSCRIPT/Corpus/@CorpusStructureService">
         <!-- ignore some root node attributes -->
     </xsl:template>    
     
-    <xsl:template priority="10" match="Corpus/@CorpusStructureService | Corpus/@CatalogueHandle | Corpus/@CatalogueLink">
+    <xsl:template priority="20" match="Corpus/@CorpusStructureService | Corpus/@CatalogueHandle | Corpus/@CatalogueLink | Corpus/@SearchService">
         <!-- ignore some root node attributes -->
     </xsl:template>    
-    
-    <xsl:template match="Resources[count(child::Anonyms) = count(child::*)]">
-        <!-- skip Resource elements that only have Anonyms as children -->
-    </xsl:template>
 
+    <!-- Anonyms -->
     <xsl:template match="Anonyms">
         <!-- ignore anonyms (for now)-->
         <!-- TODO: Anonyms may need to be removed from original IMDIs, revisit! -->
+    </xsl:template>    
+    <xsl:template match="Resources[count(child::Anonyms) = count(child::*)]">
+        <!-- skip Resource elements that only have Anonyms as children -->
     </xsl:template>
     
     <xsl:template match="@Link | /METATRANSCRIPT/*//@Type">
@@ -81,6 +81,10 @@
     <xsl:template match="ResourceLink/text() | MediaResourceLink/text()">
         <!-- Remove everything up to last slash from resource link -->
         <xsl:value-of select="replace(.,'.*/','')" />
+    </xsl:template>
+    
+    <xsl:template match="MediaResourceLink/@ArchiveHandle">
+        <!-- Remove this attribute, it gets added in the CMDI2IMDI conversion -->
     </xsl:template>
     
     <xsl:template match="CorpusLink/text()">
