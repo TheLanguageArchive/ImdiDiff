@@ -76,7 +76,7 @@
         </xsl:choose>
     </xsl:template>
     
-    <xsl:template match="ResourceLink/text()">
+    <xsl:template match="ResourceLink/text() | MediaResourceLink/text()">
         <!-- Remove everything up to last slash from resource link -->
         <xsl:value-of select="replace(.,'.*/','')" />
     </xsl:template>
@@ -91,13 +91,13 @@
     
     <!-- Empty fields will be ignored except for a set of cases where empty gets mapped to unspecified -->
     
-    <xsl:template match="node()[count(descendant::*[@Type = 'ClosedVocabulary']) = 0 and normalize-space(.) = ''] | @*[normalize-space(.) = '']">
+    <xsl:template priority="10"  match="node()[count(descendant::*[@Type = 'ClosedVocabulary']) = 0 and normalize-space(.) = ''] | @*[normalize-space(.) = '']">
         <!-- ignore empty elements without children -->
     </xsl:template>
     
     
     <!-- Exceptional cases where an empty value should get normalised to 'unspecified' (these are generally of the closed vocabulary type) -->     
-    <xsl:template priority="10" match="
+    <xsl:template match="
         //Anonymized	
         |Channel	
         |Continent	
@@ -126,6 +126,9 @@
         |Role	
         |MediaFile/Type
         |Validation/Type
+        |Validation/Level
+        |Access/Date
+        |WrittenResource/Date
         |Key[@Link='http://www.mpi.nl/CGN/Schema/CGN.communitySize.xml' and @Name='CGN.education.placesize']
         |Key[@Link='http://www.mpi.nl/CGN/Schema/CGN.EducationLevel.xml' and @Name='CGN.education.level']
         |Key[@Link='http://www.mpi.nl/CGN/Schema/CGN.Language.xml' and @Name='CGN.firstLang']
@@ -192,17 +195,12 @@
         |Key[@Name='Interpreting.Visibility']
         |Key[@Name='Interpreting.Visibility']
         ">
-        <xsl:element name="{name(.)}" namespace="{namespace-uri(.)}">
-            <xsl:choose>
-                <xsl:when test="normalize-space(.) = '' ">
-                    <!-- Add 'unspecified' value for empty nodes with closed vocab -->
-                    <xsl:text>Unspecified</xsl:text>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="."/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:element>
+        <!-- Remove element if value is Unspecified -->
+        <xsl:if test="normalize-space(.) != 'Unspecified'">
+            <xsl:copy>
+                <xsl:apply-templates select="@* | node()" />
+            </xsl:copy>
+        </xsl:if>
     </xsl:template>
     
 </xsl:stylesheet>
