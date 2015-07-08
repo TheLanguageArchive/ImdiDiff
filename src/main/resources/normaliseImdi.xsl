@@ -39,7 +39,9 @@
         <!-- ignore some root node attributes -->
     </xsl:template>    
     
-
+    <xsl:template match="Resources[count(child::Anonyms) = count(child::*)]">
+        <!-- skip Resource elements that only have Anonyms as children -->
+    </xsl:template>
 
     <xsl:template match="Anonyms">
         <!-- ignore anonyms (for now)-->
