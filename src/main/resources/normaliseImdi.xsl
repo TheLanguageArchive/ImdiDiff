@@ -14,7 +14,12 @@
     <xsl:template match="node() | @*">
         <!-- base case: copy all child nodes and attributes recursively -->
         <xsl:copy>
-            <xsl:apply-templates select="@* | node()" />
+            <xsl:apply-templates select="@*" />
+            <xsl:apply-templates select="node()[name()='Description']">
+                <!-- Sort descriptions by value -->
+                <xsl:sort select="concat(@Link,@ArchiveHandle)" />
+            </xsl:apply-templates>
+            <xsl:apply-templates select="node()[name()!='Description']" />
         </xsl:copy>
     </xsl:template>
     
