@@ -124,6 +124,7 @@
         |Methodology	
         |MotherTongue	
         |Language/Name
+        |Language/Id
         |PlanningType	
         |PrimaryLanguage	
         |Quality	
@@ -140,6 +141,8 @@
         |Validation/Level
         |Access/Date
         |WrittenResource/Date
+        |Actor/Age
+        |Actor/BirthDate
         |Key[@Link='http://www.mpi.nl/CGN/Schema/CGN.communitySize.xml' and @Name='CGN.education.placesize']
         |Key[@Link='http://www.mpi.nl/CGN/Schema/CGN.EducationLevel.xml' and @Name='CGN.education.level']
         |Key[@Link='http://www.mpi.nl/CGN/Schema/CGN.Language.xml' and @Name='CGN.firstLang']
