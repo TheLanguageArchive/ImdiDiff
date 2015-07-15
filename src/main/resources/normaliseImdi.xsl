@@ -19,7 +19,11 @@
                 <!-- Sort descriptions by value -->
                 <xsl:sort select="concat(@Link,@ArchiveHandle)" />
             </xsl:apply-templates>
-            <xsl:apply-templates select="node()[name()!='Description']" />
+            <xsl:apply-templates select="node()[name()='Key']">
+                <!-- Sort descriptions by value -->
+                <xsl:sort select="text()" />
+            </xsl:apply-templates>
+            <xsl:apply-templates select="node()[not(name()='Description' or name()='Key')]" />
         </xsl:copy>
     </xsl:template>
     
