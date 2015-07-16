@@ -25,6 +25,7 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
     private final Path sourceDir;
     private final Path targetDir;
     private final ImdiDiffer imdiDiffer;
+    private final Collection<Path> ignorepaths;
 
     private int diffCount;
     private int fileCount;
@@ -38,10 +39,11 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
      * the filesystem that reflects the structure of dir1
      * @param imdiDiffer an initialised IMDI comparator
      */
-    public ImdiDiffVisitor(Path source, Path target, ImdiDiffer imdiDiffer) {
+    public ImdiDiffVisitor(Path source, Path target, ImdiDiffer imdiDiffer, Collection<Path> ignorepaths) {
         this.sourceDir = source;
         this.targetDir = target;
         this.imdiDiffer = imdiDiffer;
+        this.ignorepaths = ignorepaths;
     }
 
     void walk() throws IOException {
@@ -51,8 +53,22 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
     }
 
     @Override
+    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+        if (shouldSkip(dir)) {
+            logger.debug("Skipping excluded directory {}", dir);
+            return FileVisitResult.SKIP_SUBTREE;
+        } else {
+            return FileVisitResult.CONTINUE;
+        }
+    }
+
+    @Override
     public FileVisitResult visitFile(Path source, BasicFileAttributes attrs) throws IOException {
-        if (!isImdiFile(source)) {
+        if (shouldSkip(source)) {
+            logger.debug("Skipping excluded file {}", source);
+            return FileVisitResult.CONTINUE;
+        }
+        if (!(attrs.isRegularFile() && isImdiFile(source))) {
             logger.debug("Skipping non-IMDI file {}", source);
             return FileVisitResult.CONTINUE;
         }
@@ -84,6 +100,10 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
             logger.warn("No matching file found in target directory for {}\n\t(expected to find {})", source, target);
         }
         return FileVisitResult.CONTINUE;
+    }
+
+    private boolean shouldSkip(Path source) {
+        return ignorepaths.contains(source) || ignorepaths.contains(source.toAbsolutePath());
     }
 
     private boolean isImdiFile(Path source) {
