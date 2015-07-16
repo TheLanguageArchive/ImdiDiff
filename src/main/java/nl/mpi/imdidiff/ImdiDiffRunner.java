@@ -24,7 +24,7 @@ public class ImdiDiffRunner {
      * @throws java.io.IOException in case of read failure or missing file
      */
     public static void main(String[] args) throws IOException {
-        if (args.length < 2 || args.length < 3) {
+        if (args.length < 2 || args.length > 3) {
             System.err.println("Usage: <jar> imdi-src imdi-target [exclude-list-file]");
             System.exit(1);
         }
