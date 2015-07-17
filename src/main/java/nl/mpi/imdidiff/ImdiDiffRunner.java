@@ -79,7 +79,7 @@ public class ImdiDiffRunner {
                 return b.toString();
             }
         });
-        System.err.print(String.format("Found %d paths to exclude from diff", paths.size()));
+        System.err.println(String.format("Found %d paths to exclude from diff", paths.size()));
         return ImmutableSet.copyOf(paths);
     }
 
