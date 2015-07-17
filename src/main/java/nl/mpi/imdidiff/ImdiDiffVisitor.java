@@ -79,27 +79,41 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
         final Path relativePath = sourceDir.relativize(source);
         final Path target = targetDir.resolve(relativePath);
 
+        // perform comparison (logging all differences)
         if (Files.exists(target)) {
             logger.debug("Comparing {} to {}", source, target);
-            try {
-                final Collection<String> differences = imdiDiffer.compare(source, target);
-                if (differences.size() > 0) {
-                    logger.info("Found {} differences for {}", differences.size(), relativePath);
-                    for (String diff : differences) {
-                        logger.warn("{}: {}", relativePath, diff);
-                    }
-                    diffFileCount++;
-                    diffCount += differences.size();
-                }
-            } catch (SAXException ex) {
-                logger.error("Fatal error while parsing. Skipped file: {}", source.getFileName(), ex);
-            } catch (TransformerException ex) {
-                logger.error("Fatal error while transforming. Skipped file: {}", source.getFileName(), ex);
-            }
+            compare(source, target, relativePath);
         } else {
             logger.warn("No matching file found in target directory for {}\n\t(expected to find {})", source, target);
         }
         return FileVisitResult.CONTINUE;
+    }
+
+    /**
+     * Compares source and target files using the {@link ImdiDiffer}, and sends
+     * all differences found to the logger at warn level
+     *
+     * @param source source to compare
+     * @param target target to compare to
+     * @param relativePath relative path that applies to both source and target
+     * @throws IOException if differ fails to read either file
+     */
+    private void compare(Path source, final Path target, final Path relativePath) throws IOException {
+        try {
+            final Collection<String> differences = imdiDiffer.compare(source, target);
+            if (differences.size() > 0) {
+                logger.info("Found {} differences for {}", differences.size(), relativePath);
+                for (String diff : differences) {
+                    logger.warn("{}: {}", relativePath, diff);
+                }
+                diffFileCount++;
+                diffCount += differences.size();
+            }
+        } catch (SAXException ex) {
+            logger.error("Fatal error while parsing. Skipped file: {}", source.getFileName(), ex);
+        } catch (TransformerException ex) {
+            logger.error("Fatal error while transforming. Skipped file: {}", source.getFileName(), ex);
+        }
     }
 
     private boolean shouldSkip(Path source) {
