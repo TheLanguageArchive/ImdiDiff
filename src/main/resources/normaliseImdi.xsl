@@ -224,6 +224,7 @@
     </xsl:template>
     
     <xsl:template match="Content/Modalities">
+        <!-- For DBD, which does not preserve the lower case values -->
         <xsl:copy><xsl:value-of select="lower-case(.)" /></xsl:copy> 
     </xsl:template>
 </xsl:stylesheet>
