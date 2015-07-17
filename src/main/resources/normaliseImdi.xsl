@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet 
+    xmlns="http://www.mpi.nl/IMDI/Schema/IMDI"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:sil="http://www.sil.org/"
@@ -221,4 +223,7 @@
         </xsl:if>
     </xsl:template>
     
+    <xsl:template match="Content/Modalities">
+        <xsl:copy><xsl:value-of select="lower-case(.)" /></xsl:copy> 
+    </xsl:template>
 </xsl:stylesheet>
