@@ -51,8 +51,8 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
     @Override
     public Collection<String> compare(Path source, Path target) throws IOException, SAXException, TransformerException {
 
-        String normalisedSource = normalise(source);
-        String normalisedTarget = normalise(target);
+        final String normalisedSource = normalise(source);
+        final String normalisedTarget = normalise(target);
 
         final Diff diff = XMLUnit.compareXML(normalisedSource, normalisedTarget);
         final DetailedDiff detailedDiff = new DetailedDiff(diff);
