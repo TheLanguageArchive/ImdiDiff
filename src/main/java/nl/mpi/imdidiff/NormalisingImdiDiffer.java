@@ -121,17 +121,17 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
 
             @Override
             public void warning(TransformerException exception) throws TransformerException {
-                logger.warn("Saxon warning", exception);
+                logger.warn("Saxon warning: " + exception.getMessageAndLocation());
             }
 
             @Override
             public void error(TransformerException exception) throws TransformerException {
-                logger.error("Saxon error", exception);
+                logger.error("Saxon error: " + exception.getMessageAndLocation());
             }
 
             @Override
             public void fatalError(TransformerException exception) throws TransformerException {
-                logger.error("Saxon FATAL", exception);
+                logger.error("Saxon FATAL: " + exception.getMessageAndLocation());
             }
         });
 
