@@ -3,6 +3,7 @@ package nl.mpi.imdidiff;
 import com.google.common.base.Converter;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Multimap;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -38,6 +39,11 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
     private final static Logger logger = LoggerFactory.getLogger(NormalisingImdiDiffer.class);
     private final static String SAXON_MESSAGE_EMITTER_CLASSNAME = "net.sf.saxon.serialize.MessageWarner";
     private Transformer transformer;
+    private final Multimap<Path, String> ignorepaths;
+
+    public NormalisingImdiDiffer(Multimap<Path, String> ignorepaths) {
+        this.ignorepaths = ignorepaths;
+    }
 
     @Override
     public void initialise() {
@@ -55,18 +61,17 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
     }
 
     @Override
-    public Collection<String> compare(Path source, Path target) throws IOException, SAXException, TransformerException {
+    public Collection<String> compare(final Path source, final Path target) throws IOException, SAXException, TransformerException {
 
         final InputSource normalisedSource = normalise(source);
         final InputSource normalisedTarget = normalise(target);
 
         final Diff diff = XMLUnit.compareXML(normalisedSource, normalisedTarget);
         final DetailedDiff detailedDiff = new DetailedDiff(diff);
-//        detailedDiff.overrideDifferenceListener(diffListener);
 
         final List<Difference> differences = detailedDiff.getAllDifferences();
 
-        // filter out acceptable similarities
+        // filter out acceptable similarities...
         final Collection<Difference> unsimilar = Collections2.filter(differences, new Predicate<Difference>() {
 
             @Override
@@ -75,8 +80,27 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
             }
         });
 
+        // filter out skipped paths...
+        final Collection<Difference> unskippedUnsimilar = Collections2.filter(unsimilar, new Predicate<Difference>() {
+
+            @Override
+            public boolean apply(Difference input) {
+                // skipped paths should be filtered out
+                final String controlPath = input.getControlNodeDetail().getXpathLocation();
+                final String testPath = input.getTestNodeDetail().getXpathLocation();
+                if (shouldSkip(source, controlPath) || shouldSkip(source, testPath)) {
+                    logger.debug("Skipping path {}/{} in {}", controlPath, testPath, source);
+                    return false;
+                } else {
+                    // all other cases: include
+                    return true;
+                }
+            }
+        }
+        );
+
         // apply toString to all differences
-        return Collections2.transform(unsimilar, new Converter<Difference, String>() {
+        return Collections2.transform(unskippedUnsimilar, new Converter<Difference, String>() {
 
             @Override
             protected String doForward(Difference a) {
@@ -95,7 +119,7 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
         final StreamSource inputSource = new StreamSource(Files.newBufferedReader(input, StandardCharsets.UTF_8));
         inputSource.setSystemId(input.toUri().toString());
         inputSource.setPublicId(input.getFileName().toString());
-        
+
         // normalisation transformation
         final StringWriter writer = new StringWriter();
         transformer.transform(inputSource, new StreamResult(writer));
@@ -137,5 +161,13 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
 
         // make all saxon internal log message to to error listener
         saxonFactory.getConfiguration().setMessageEmitterClass(SAXON_MESSAGE_EMITTER_CLASSNAME);
+    }
+
+    private boolean shouldSkip(Path source, String nodePath) {
+        final Path sourceAbsolutePath = source.toAbsolutePath();
+        // skip node path if an entry exists for the file
+        return nodePath != null
+                && ((ignorepaths.containsKey(source) && ignorepaths.get(source).contains(nodePath))
+                || (ignorepaths.containsKey(sourceAbsolutePath) && ignorepaths.get(sourceAbsolutePath).contains(nodePath)));
     }
 }

@@ -1,5 +1,6 @@
 package nl.mpi.imdidiff;
 
+import com.google.common.collect.Multimap;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -7,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collection;
+import java.util.regex.Pattern;
 import javax.xml.transform.TransformerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +24,12 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
 
     private final static Logger logger = LoggerFactory.getLogger(ImdiDiffVisitor.class);
 
+    public static final Pattern DIFF_PATH_PATTERN = Pattern.compile(".* at ([^\\s]+)$");
+
     private final Path sourceDir;
     private final Path targetDir;
     private final ImdiDiffer imdiDiffer;
-    private final Collection<Path> ignorepaths;
+    private final Multimap<Path, String> ignorepaths;
 
     private int diffCount;
     private int fileCount;
@@ -39,7 +43,7 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
      * the filesystem that reflects the structure of dir1
      * @param imdiDiffer an initialised IMDI comparator
      */
-    public ImdiDiffVisitor(Path source, Path target, ImdiDiffer imdiDiffer, Collection<Path> ignorepaths) {
+    public ImdiDiffVisitor(Path source, Path target, ImdiDiffer imdiDiffer, Multimap<Path, String> ignorepaths) {
         this.sourceDir = source;
         this.targetDir = target;
         this.imdiDiffer = imdiDiffer;
@@ -117,7 +121,14 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
     }
 
     private boolean shouldSkip(Path source) {
-        return ignorepaths.contains(source) || ignorepaths.contains(source.toAbsolutePath());
+        return shouldSkip(source, ImdiDiffer.SKIP_WILDCARD);
+    }
+
+    private boolean shouldSkip(Path source, String nodePath) {
+        final Path sourceAbsolutePath = source.toAbsolutePath();
+        // skip node path if an entry exists for the file
+        return (ignorepaths.containsKey(source) && ignorepaths.get(source).contains(nodePath))
+                || (ignorepaths.containsKey(sourceAbsolutePath) && ignorepaths.get(sourceAbsolutePath).contains(nodePath));
     }
 
     private boolean isImdiFile(Path source) {

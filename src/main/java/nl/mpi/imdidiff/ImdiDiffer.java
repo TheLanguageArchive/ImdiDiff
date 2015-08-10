@@ -17,8 +17,13 @@ import org.xml.sax.SAXException;
  */
 public interface ImdiDiffer {
 
+    /**
+     * Wildcard to indicate that an entire path should be skipped
+     */
+    public static final String SKIP_WILDCARD = "*";
+
     void initialise();
-    
+
     Collection<String> compare(Path source, Path target) throws IOException, SAXException, TransformerException;
-    
+
 }
