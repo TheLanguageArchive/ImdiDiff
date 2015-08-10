@@ -23,7 +23,7 @@
             </xsl:apply-templates>
             <xsl:apply-templates select="node()[name()='Key']">
                 <!-- Sort descriptions by value -->
-                <xsl:sort select="text()" />
+                <xsl:sort select="concat(@Name,text())" />
             </xsl:apply-templates>
             <xsl:apply-templates select="node()[not(name()='Description' or name()='Key')]" />
         </xsl:copy>
