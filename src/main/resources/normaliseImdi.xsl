@@ -112,6 +112,10 @@
         <!-- ignore empty elements without children -->
     </xsl:template>
     
+    <xsl:template match="CommunicationContext[count(child::*[normalize-space(text()) != '']) = 0]">
+        <!-- ignore CommunicationContext elements without children -->
+    </xsl:template>
+    
     
     <!-- Exceptional cases where an empty value should get normalised to 'unspecified' (these are generally of the closed vocabulary type) -->     
     <xsl:template match="
