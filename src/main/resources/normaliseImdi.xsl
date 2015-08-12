@@ -112,8 +112,9 @@
         <!-- ignore empty elements without children -->
     </xsl:template>
     
-    <xsl:template match="*[(name() = 'CommunicationContext' or name() = 'Access') and count(child::*[count(@*) != 0 or (normalize-space(text()) != '' and normalize-space(text()) != 'Unspecified')]) = 0]">
+    <xsl:template match="*[(name() = 'CommunicationContext' or name() = 'Access') and count(descendant::*[normalize-space(text()) != '' and normalize-space(text()) != 'Unspecified']) = 0]">
         <!-- ignore CommunicationContext or Access elements without value carrying children -->
+        <!-- notice that we are ignoring attributes here, only looking at content! -->
     </xsl:template>
     
     
