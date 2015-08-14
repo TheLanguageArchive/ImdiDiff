@@ -10,7 +10,7 @@
                         <scenarioAssociation-array>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files_old/cmdi-conversion-checker/current/imdi-out/donated_corpora/BBC/Corpusstructure/Contatto_3.imdi</String>
+                                    <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/donated_corpora/Pan-Saami_Language_Archive/access_level_1/Metadata/sjd20131006.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
@@ -25,7 +25,7 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files_old/imdi_to_cmdi/src/donated_corpora/BBC/Corpusstructure/Contatto_3.imdi</String>
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/donated_corpora/Pan-Saami_Language_Archive/access_level_1/Metadata/sjd20131006.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
@@ -52,6 +52,36 @@
                                     <list>
                                         <String>XML</String>
                                         <String>XML</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files_old/cmdi-conversion-checker/current/imdi-out/donated_corpora/BBC/Corpusstructure/Contatto_3.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>normaliseImdi.xsl</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files_old/imdi_to_cmdi/src/donated_corpora/BBC/Corpusstructure/Contatto_3.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>normaliseImdi.xsl</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
                                     </list>
                                 </field>
                             </scenarioAssociation>
