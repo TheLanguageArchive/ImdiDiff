@@ -19,13 +19,31 @@
             <xsl:apply-templates select="@*" />
             <xsl:apply-templates select="node()[name()='Description']">
                 <!-- Sort descriptions by value -->
-                <xsl:sort select="concat(@Link,@ArchiveHandle)" />
+                <xsl:sort select="concat(normalize-space(@Link),normalize-space(@ArchiveHandle))" />
             </xsl:apply-templates>
             <xsl:apply-templates select="node()[name()='Key']">
                 <!-- Sort descriptions by value -->
                 <xsl:sort select="concat(@Name,text())" />
             </xsl:apply-templates>
             <xsl:apply-templates select="node()[not(name()='Description' or name()='Key')]" />
+        </xsl:copy>
+    </xsl:template>
+    
+    <xsl:template priority="50" match="Description">
+        <xsl:copy>
+            <!-- Only keep language ID if there is text content -->
+            <xsl:if test="normalize-space(@LanguageId) != '' and normalize-space(text()) != ''">
+                <xsl:attribute name="LanguageId" select="@LanguageId" />
+            </xsl:if>
+            <!-- keep @Link -->
+            <xsl:if test="normalize-space(@Link) != ''">
+                <xsl:attribute name="Link" select="@Link" />
+            </xsl:if>
+            <!-- keep @ArchiveHandle -->
+            <xsl:if test="normalize-space(@ArchiveHandle) != ''">
+                <xsl:attribute name="ArchiveHandle" select="@ArchiveHandle" />
+            </xsl:if>
+            <xsl:copy-of select="text()" />
         </xsl:copy>
     </xsl:template>
     
