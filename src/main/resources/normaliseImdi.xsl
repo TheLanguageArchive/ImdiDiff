@@ -42,7 +42,7 @@
                 </xsl:if>
                 <!-- keep @ArchiveHandle -->
                 <xsl:if test="normalize-space(@ArchiveHandle) != ''">
-                    <xsl:attribute name="ArchiveHandle" select="@ArchiveHandle" />
+                    <xsl:apply-templates select="@ArchiveHandle" />
                 </xsl:if>
                 <xsl:copy-of select="text()" />
             </xsl:copy>
