@@ -30,21 +30,23 @@
     </xsl:template>
     
     <xsl:template priority="50" match="Description">
-        <xsl:copy>
-            <!-- Only keep language ID if there is text content -->
-            <xsl:if test="normalize-space(@LanguageId) != '' and normalize-space(text()) != ''">
-                <xsl:attribute name="LanguageId" select="@LanguageId" />
-            </xsl:if>
-            <!-- keep @Link -->
-            <xsl:if test="normalize-space(@Link) != ''">
-                <xsl:attribute name="Link" select="@Link" />
-            </xsl:if>
-            <!-- keep @ArchiveHandle -->
-            <xsl:if test="normalize-space(@ArchiveHandle) != ''">
-                <xsl:attribute name="ArchiveHandle" select="@ArchiveHandle" />
-            </xsl:if>
-            <xsl:copy-of select="text()" />
-        </xsl:copy>
+        <xsl:if test="normalize-space(text()) != '' or normalize-space(@Link) != ''">
+            <xsl:copy>
+                <!-- Only keep language ID if there is text content -->
+                <xsl:if test="normalize-space(@LanguageId) != '' and normalize-space(text()) != ''">
+                    <xsl:attribute name="LanguageId" select="@LanguageId" />
+                </xsl:if>
+                <!-- keep @Link -->
+                <xsl:if test="normalize-space(@Link) != ''">
+                    <xsl:attribute name="Link" select="@Link" />
+                </xsl:if>
+                <!-- keep @ArchiveHandle -->
+                <xsl:if test="normalize-space(@ArchiveHandle) != ''">
+                    <xsl:attribute name="ArchiveHandle" select="@ArchiveHandle" />
+                </xsl:if>
+                <xsl:copy-of select="text()" />
+            </xsl:copy>
+        </xsl:if>
     </xsl:template>
     
     <xsl:template match="METATRANSCRIPT/@Type[normalize-space(.) = 'CORPUS.Profile']">
@@ -130,7 +132,7 @@
         <!-- ignore empty elements without children -->
     </xsl:template>
     
-    <xsl:template match="*[(name() = 'CommunicationContext' or name() = 'Access' or name() = 'Location') 
+    <xsl:template match="*[(name() = 'CommunicationContext' or name() = 'Access' or name() = 'Location' or name() = 'Validation') 
             and count(
                 descendant::*[normalize-space(text()) != '' and normalize-space(text()) != 'Unspecified'])
             = 0]">

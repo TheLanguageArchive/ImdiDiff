@@ -10,6 +10,128 @@
                         <scenarioAssociation-array>
                             <scenarioAssociation>
                                 <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/casual_speech/The_Ernestus_Corpus_of_Spontaneous_Dutch/Speaker_X5_X6/Metadata/Speaker_X5_X6_part_18.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>normaliseImdi.xsl</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/casual_speech/The_Ernestus_Corpus_of_Spontaneous_Dutch/Speaker_X5_X6/Metadata/Speaker_X5_X6_part_18.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>normaliseImdi.xsl</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/dest/MPI_CGN/Regions/Dutch_regions/Kerngebied/Zuid-Holland/Metadata/fn001494.cmdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>cmdi2imdi</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/MPI_CGN/Regions/Dutch_regions/Kerngebied/Zuid-Holland/Metadata/fn001494.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>normaliseImdi.xsl</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/MPI_CGN/Regions/Dutch_regions/Kerngebied/Zuid-Holland/Metadata/fn001494.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>normaliseImdi.xsl</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/test/imdi-original/Aissati/Metadata/DBD_RIF_14_12_01_064.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>normaliseImdi.xsl</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../MetadataTranslator/Translator/src/main/resources/templates/cmdi2imdi/tlaprofilescommon.xslt</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>online test</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XML</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>src/main/resources/normaliseImdi.xsl</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>ccr2dcif%20(1)</String>
+                                        <String>ccr2dcif%20 (imdi roundtrip)</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XML</String>
+                                        <String>XML</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
                                     <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/donated_corpora/Pan-Saami_Language_Archive/access_level_1/Metadata/sjd20131006.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
@@ -40,18 +162,16 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>src/main/resources/normaliseImdi.xsl</String>
+                                    <String>../../../../Desktop/imdidiff/test/imdi-out/Aissati/Metadata/DBD_RIF_14_12_01_064.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
-                                        <String>ccr2dcif%20(1)</String>
-                                        <String>ccr2dcif%20 (imdi roundtrip)</String>
+                                        <String>normaliseImdi.xsl</String>
                                     </list>
                                 </field>
                                 <field name="scenarioTypes">
                                     <list>
-                                        <String>XML</String>
-                                        <String>XML</String>
+                                        <String>XSL</String>
                                     </list>
                                 </field>
                             </scenarioAssociation>
@@ -82,21 +202,6 @@
                                 <field name="scenarioTypes">
                                     <list>
                                         <String>XSL</String>
-                                    </list>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="url">
-                                    <String>../MetadataTranslator/Translator/src/main/resources/templates/cmdi2imdi/tlaprofilescommon.xslt</String>
-                                </field>
-                                <field name="scenarioIds">
-                                    <list>
-                                        <String>online test</String>
-                                    </list>
-                                </field>
-                                <field name="scenarioTypes">
-                                    <list>
-                                        <String>XML</String>
                                     </list>
                                 </field>
                             </scenarioAssociation>
@@ -193,36 +298,6 @@
                             <scenarioAssociation>
                                 <field name="url">
                                     <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/Malmo/Malmo_University/AWI/HT_2012/Teacher_Training/23/Metadata/Field_Research_Paper.imdi</String>
-                                </field>
-                                <field name="scenarioIds">
-                                    <list>
-                                        <String>normaliseImdi.xsl</String>
-                                    </list>
-                                </field>
-                                <field name="scenarioTypes">
-                                    <list>
-                                        <String>XSL</String>
-                                    </list>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/casual_speech/The_Ernestus_Corpus_of_Spontaneous_Dutch/Speaker_X5_X6/Metadata/Speaker_X5_X6_part_18.imdi</String>
-                                </field>
-                                <field name="scenarioIds">
-                                    <list>
-                                        <String>normaliseImdi.xsl</String>
-                                    </list>
-                                </field>
-                                <field name="scenarioTypes">
-                                    <list>
-                                        <String>XSL</String>
-                                    </list>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/casual_speech/The_Ernestus_Corpus_of_Spontaneous_Dutch/Speaker_X5_X6/Metadata/Speaker_X5_X6_part_18.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
