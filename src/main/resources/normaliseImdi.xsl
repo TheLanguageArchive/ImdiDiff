@@ -34,11 +34,11 @@
             <xsl:copy>
                 <!-- Only keep language ID if there is text content -->
                 <xsl:if test="normalize-space(@LanguageId) != '' and normalize-space(text()) != ''">
-                    <xsl:attribute name="LanguageId" select="@LanguageId" />
+                    <xsl:apply-templates select="@LanguageId" />
                 </xsl:if>
                 <!-- keep @Link -->
                 <xsl:if test="normalize-space(@Link) != ''">
-                    <xsl:attribute name="Link" select="@Link" />
+                    <xsl:apply-templates select="@Link" />
                 </xsl:if>
                 <!-- keep @ArchiveHandle -->
                 <xsl:if test="normalize-space(@ArchiveHandle) != ''">
