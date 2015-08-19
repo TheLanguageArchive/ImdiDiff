@@ -114,6 +114,11 @@
         <xsl:value-of select="replace(.,'.*/','')" />
     </xsl:template>
     
+    <xsl:template match="@Link[parent::Description or parent::description]">
+        <!-- Remove everything up to last slash from resource link -->
+        <xsl:attribute name="Link" select="replace(.,'.*/','')" />
+    </xsl:template>    
+    
     <xsl:template match="MediaResourceLink/@ArchiveHandle">
         <!-- Remove this attribute, it gets added in the CMDI2IMDI conversion -->
     </xsl:template>
