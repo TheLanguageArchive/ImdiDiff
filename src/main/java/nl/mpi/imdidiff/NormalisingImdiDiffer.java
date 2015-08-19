@@ -35,23 +35,23 @@ import org.xml.sax.SAXException;
  * @author Twan Goosen <twan.goosen@mpi.nl>
  */
 public class NormalisingImdiDiffer implements ImdiDiffer {
-
+    
     private final static Logger logger = LoggerFactory.getLogger(NormalisingImdiDiffer.class);
     private final static String SAXON_MESSAGE_EMITTER_CLASSNAME = "net.sf.saxon.serialize.MessageWarner";
     private Transformer transformer;
     private final Multimap<Path, String> ignorepaths;
-
+    
     public NormalisingImdiDiffer(Multimap<Path, String> ignorepaths) {
         this.ignorepaths = ignorepaths;
     }
-
+    
     @Override
     public void initialise() {
         XMLUnit.setIgnoreAttributeOrder(true);
         XMLUnit.setIgnoreComments(true);
         XMLUnit.setIgnoreWhitespace(true);
         XMLUnit.setNormalizeWhitespace(true);
-
+        
         try {
             final StreamSource xsltSource = new StreamSource(getClass().getResourceAsStream("/normaliseImdi.xsl"));
             transformer = getTransformerFactory().newTransformer(xsltSource);
@@ -59,21 +59,21 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
             throw new RuntimeException(ex);
         }
     }
-
+    
     @Override
     public Collection<String> compare(final Path source, final Path target) throws IOException, SAXException, TransformerException {
-
+        
         final InputSource normalisedSource = normalise(source);
         final InputSource normalisedTarget = normalise(target);
-
+        
         final Diff diff = XMLUnit.compareXML(normalisedSource, normalisedTarget);
         final DetailedDiff detailedDiff = new DetailedDiff(diff);
-
+        
         final List<Difference> differences = detailedDiff.getAllDifferences();
 
         // filter out acceptable similarities...
         final Collection<Difference> unsimilar = Collections2.filter(differences, new Predicate<Difference>() {
-
+            
             @Override
             public boolean apply(Difference input) {
                 return !input.isRecoverable();
@@ -82,14 +82,12 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
 
         // filter out skipped paths...
         final Collection<Difference> unskippedUnsimilar = Collections2.filter(unsimilar, new Predicate<Difference>() {
-
+            
             @Override
             public boolean apply(Difference input) {
                 // skipped paths should be filtered out
-                final String controlPath = input.getControlNodeDetail().getXpathLocation();
-                final String testPath = input.getTestNodeDetail().getXpathLocation();
-                if (shouldSkip(source, controlPath) || shouldSkip(source, testPath)) {
-                    logger.debug("Skipping path {}/{} in {}", controlPath, testPath, source);
+                if (shouldSkip(source, input)) {
+                    logger.debug("Skipping path {}/{} in {}", input.getControlNodeDetail().getXpathLocation(), input.getTestNodeDetail().getXpathLocation(), source);
                     return false;
                 } else {
                     // all other cases: include
@@ -101,19 +99,19 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
 
         // apply toString to all differences
         return Collections2.transform(unskippedUnsimilar, new Converter<Difference, String>() {
-
+            
             @Override
             protected String doForward(Difference a) {
                 return String.format("ID%d - %s", a.getId(), a.toString());
             }
-
+            
             @Override
             protected Difference doBackward(String b) {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
     }
-
+    
     private InputSource normalise(Path input) throws IOException, TransformerException {
         // create input source from file
         final StreamSource inputSource = new StreamSource(Files.newBufferedReader(input, StandardCharsets.UTF_8));
@@ -130,7 +128,7 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
         normalised.setPublicId("normalised-" + input.getFileName().toString());
         return normalised;
     }
-
+    
     private TransformerFactory getTransformerFactory() throws TransformerFactoryConfigurationError {
         final TransformerFactory factory = TransformerFactory.newInstance();
         if (factory instanceof TransformerFactoryImpl) {
@@ -138,21 +136,21 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
         }
         return factory;
     }
-
+    
     private void configureSaxonTransfomerFactory(final TransformerFactoryImpl saxonFactory) throws IllegalArgumentException {
         // log saxon warnings and errors to our local logger
         saxonFactory.setErrorListener(new ErrorListener() {
-
+            
             @Override
             public void warning(TransformerException exception) throws TransformerException {
                 logger.warn("Saxon warning: " + exception.getMessageAndLocation());
             }
-
+            
             @Override
             public void error(TransformerException exception) throws TransformerException {
                 logger.error("Saxon error: " + exception.getMessageAndLocation());
             }
-
+            
             @Override
             public void fatalError(TransformerException exception) throws TransformerException {
                 logger.error("Saxon FATAL: " + exception.getMessageAndLocation());
@@ -162,12 +160,28 @@ public class NormalisingImdiDiffer implements ImdiDiffer {
         // make all saxon internal log message to to error listener
         saxonFactory.getConfiguration().setMessageEmitterClass(SAXON_MESSAGE_EMITTER_CLASSNAME);
     }
-
-    private boolean shouldSkip(Path source, String nodePath) {
+    
+    private boolean shouldSkip(Path source, Difference diff) {
+        final String controlPath = diff.getControlNodeDetail().getXpathLocation();
+        final String testPath = diff.getTestNodeDetail().getXpathLocation();
+        return shouldSkip(source, diff.getId(), controlPath) || shouldSkip(source, diff.getId(), testPath);
+        
+    }
+    
+    private boolean shouldSkip(Path source, int code, String nodePath) {
         final Path sourceAbsolutePath = source.toAbsolutePath();
         // skip node path if an entry exists for the file
         return nodePath != null
-                && ((ignorepaths.containsKey(source) && ignorepaths.get(source).contains(nodePath))
-                || (ignorepaths.containsKey(sourceAbsolutePath) && ignorepaths.get(sourceAbsolutePath).contains(nodePath)));
+                && (isIgnorePath(source, code, nodePath)
+                || isIgnorePath(sourceAbsolutePath, code, nodePath));
+    }
+    
+    public boolean isIgnorePath(Path path, int code, String nodePath) {
+        final String pathWithId = String.format("ID%d:%s", code, nodePath);
+        final Collection<String> ignorePath = ignorepaths.get(path);
+        
+        return ignorePath != null
+                && (ignorePath.contains(nodePath) // path without diff ID - always ignore
+                || ignorePath.contains(pathWithId)); // path with diff ID - ignore if matches
     }
 }

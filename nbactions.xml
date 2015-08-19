@@ -12,7 +12,7 @@
             <properties>
                 <exec.args>-classpath %classpath nl.mpi.imdidiff.ImdiDiffRunner imdi-original imdi-out exclude.txt</exec.args>
                 <exec.executable>java</exec.executable>
-                <exec.workingdir>/Users/twan/Desktop/imdidiff/test</exec.workingdir>
+                <exec.workingdir>/Users/twan/Documents/Repositories/git/cmdi-conversion-checker</exec.workingdir>
             </properties>
         </action>
         <action>
@@ -28,7 +28,7 @@
                 <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath nl.mpi.imdidiff.ImdiDiffRunner imdi-original imdi-out exclude.txt</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
-                <exec.workingdir>/Users/twan/Desktop/imdidiff/test</exec.workingdir>
+                <exec.workingdir>/Users/twan/Documents/Repositories/git/cmdi-conversion-checker</exec.workingdir>
             </properties>
         </action>
         <action>
@@ -43,7 +43,7 @@
             <properties>
                 <exec.args>-classpath %classpath nl.mpi.imdidiff.ImdiDiffRunner imdi-original imdi-out exclude.txt</exec.args>
                 <exec.executable>java</exec.executable>
-                <exec.workingdir>/Users/twan/Desktop/imdidiff/test</exec.workingdir>
+                <exec.workingdir>/Users/twan/Documents/Repositories/git/cmdi-conversion-checker</exec.workingdir>
             </properties>
         </action>
     </actions>

@@ -10,7 +10,22 @@
                         <scenarioAssociation-array>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/casual_speech/Nijmegen_Corpus_of_Spanish_English/Corpusstructure/Nijmegen_Corpus_of_Spanish_English.imdi</String>
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/dest/echo_data/sign_language/Dialogue/DGS/Metadata/DGS_GehSo10_GF.cmdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>cmdi2imdi</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/dbd_data/vandervate/Sarnami-Dutch/Sarnami/Task/Story_retelling/Metadata/DBD_DH_022L.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
@@ -25,7 +40,7 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/casual_speech/Nijmegen_Corpus_of_Spanish_English/Corpusstructure/Nijmegen_Corpus_of_Spanish_English.imdi</String>
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/dbd_data/vandervate/Sarnami-Dutch/Sarnami/Task/Story_retelling/Metadata/DBD_DH_022L.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
@@ -52,6 +67,36 @@
                                     <list>
                                         <String>XML</String>
                                         <String>XML</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/casual_speech/Nijmegen_Corpus_of_Spanish_English/Corpusstructure/Nijmegen_Corpus_of_Spanish_English.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>normaliseImdi.xsl</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/casual_speech/Nijmegen_Corpus_of_Spanish_English/Corpusstructure/Nijmegen_Corpus_of_Spanish_English.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>normaliseImdi.xsl</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
                                     </list>
                                 </field>
                             </scenarioAssociation>
