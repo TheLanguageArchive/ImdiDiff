@@ -83,10 +83,6 @@
         <!-- ignore vocab link and vocab type (not @Type on root node)-->
     </xsl:template>    
     
-    <xsl:template match="@ResourceRef|@ResourceId">
-        <!-- Resource references and id's will not be similar, so ignore -->
-    </xsl:template>
-    
     <xsl:template match="@XXX-Type|@XXX-Multiple|@XXX-Tag|@XXX-Visible|@XXX-HelpText">
         <!-- Ignore these attributes (used in DBD and maybe other corpora) -->
     </xsl:template>
@@ -145,6 +141,54 @@
         <!-- notice that we are ignoring attributes here, only looking at content! -->
     </xsl:template>
     
+    <!-- ResourceId and ResourceRef -->
+    
+    <xsl:template match="MediaFile|WrittenResource" mode="make-resource-id">
+        <!-- Makes a canonical ID substitute based on handle or resource name that should survive re-identification -->
+        <xsl:choose>
+            <xsl:when test="normalize-space(ResourceLink/@ArchiveHandle) != ''">
+                <!-- handle exists, take it -->
+                <xsl:value-of select="ResourceLink/@ArchiveHandle"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <!-- no handle, take file name without path -->
+                <xsl:value-of select="replace(ResourceLink/text(),'.*/','')"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <xsl:template match="WrittenResource/@ResourceId|MediaFile/@ResourceId">
+        <xsl:attribute name="ResourceId">
+            <xsl:apply-templates select="parent::MediaFile|parent::WrittenResource" mode="make-resource-id" />
+        </xsl:attribute>
+    </xsl:template>
+    
+    <xsl:template match="Source/@ResourceRefs">
+        <xsl:variable name="root" select="/" />
+        
+        <!-- only keep refs that resolve to a resource -->
+        <xsl:variable name="refs">
+            <!-- there may be multiple refs, so tokenize -->
+            <xsl:for-each select="tokenize(.,'\s')">
+                <!-- look for a matching resource... --> 
+                <xsl:variable name="resource" select="$root//MediaFile[@ResourceId=current()]|$root//WrittenResource[@ResourceId=current()]"/>
+                <xsl:if test="$resource">
+                    <!-- use a canonical id (same as used as substitute in resource) -->
+                    <xsl:variable name="resourceName">
+                        <xsl:apply-templates select="$resource" mode="make-resource-id" />
+                    </xsl:variable>
+                    <!-- and append some whitespace for separation -->
+                    <xsl:value-of select="concat($resourceName,' ')" />
+                </xsl:if>
+                <!-- 'dangling' refs just get skipped ... -->
+            </xsl:for-each>
+        </xsl:variable>
+        
+        <!-- only insert attribute if there are resolving refs.. -->
+        <xsl:if test="normalize-space($refs) != ''">
+            <xsl:attribute name="ResourceRefs" select="normalize-space($refs)" />
+        </xsl:if>
+    </xsl:template>   
     
     <!-- Exceptional cases where an empty value should get normalised to 'unspecified' (these are generally of the closed vocabulary type) -->     
     <xsl:template match="
