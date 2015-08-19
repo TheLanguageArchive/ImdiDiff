@@ -79,7 +79,7 @@
         <!-- skip Resource elements that only have Anonyms as children -->
     </xsl:template>
     
-    <xsl:template match="@Link | /METATRANSCRIPT/*//@Type">
+    <xsl:template match="@Link[not(parent::Description or parent::description)] | /METATRANSCRIPT/*//@Type">
         <!-- ignore vocab link and vocab type (not @Type on root node)-->
     </xsl:template>    
     
