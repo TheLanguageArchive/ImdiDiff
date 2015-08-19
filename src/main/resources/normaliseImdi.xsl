@@ -21,30 +21,53 @@
                 <!-- Sort descriptions by value -->
                 <xsl:sort select="concat(normalize-space(@Link),normalize-space(@ArchiveHandle))" />
             </xsl:apply-templates>
+            
+            <xsl:if test="name() = 'Session'">
+                <!-- Copy info link descriptions from //Content to the appropriate place -->
+                <xsl:apply-templates select="." mode="copy-content-infolinks" />
+            </xsl:if>
+            
             <xsl:apply-templates select="node()[name()='Key']">
                 <!-- Sort descriptions by value -->
-                <xsl:sort select="concat(@Name,text())" />
+                <xsl:sort select="concat(@Name, text())" />
             </xsl:apply-templates>
             <xsl:apply-templates select="node()[not(name()='Description' or name()='Key')]" />
         </xsl:copy>
     </xsl:template>
+        
+    <xsl:template match="/METATRANSCRIPT/Session" mode="copy-content-infolinks">        
+        <!-- Move InfoLinks in Content to Session level -->
+        <xsl:for-each select="/METATRANSCRIPT/Session/MDGroup/Content/Description[normalize-space(@Link) != '']">
+            <!-- Sort descriptions by value -->
+            <xsl:sort select="concat(normalize-space(@Link),normalize-space(@ArchiveHandle))" />
+            <xsl:call-template name="copy-description" />
+        </xsl:for-each>
+    </xsl:template>
+    
+    <xsl:template priority="60" match="/METATRANSCRIPT/Session/MDGroup/Content/Description[normalize-space(@Link) != '']">
+        <!-- Skip InfoLinks in Content (they get moved to Session level, see template below ) -->
+    </xsl:template>
     
     <xsl:template priority="50" match="Description">
+        <xsl:call-template name="copy-description"/>
+    </xsl:template>
+    
+    <xsl:template name="copy-description">
         <xsl:if test="normalize-space(text()) != '' or normalize-space(@Link) != ''">
             <xsl:copy>
                 <!-- Only keep language ID if there is text content -->
                 <xsl:if test="normalize-space(@LanguageId) != '' and normalize-space(text()) != ''">
-                    <xsl:apply-templates select="@LanguageId" />
+                    <xsl:apply-templates select="@LanguageId"/>
                 </xsl:if>
                 <!-- keep @Link -->
                 <xsl:if test="normalize-space(@Link) != ''">
-                    <xsl:apply-templates select="@Link" />
+                    <xsl:apply-templates select="@Link"/>
                 </xsl:if>
                 <!-- keep @ArchiveHandle -->
                 <xsl:if test="normalize-space(@ArchiveHandle) != ''">
-                    <xsl:apply-templates select="@ArchiveHandle" />
+                    <xsl:apply-templates select="@ArchiveHandle"/>
                 </xsl:if>
-                <xsl:copy-of select="text()" />
+                <xsl:copy-of select="text()"/>
             </xsl:copy>
         </xsl:if>
     </xsl:template>
