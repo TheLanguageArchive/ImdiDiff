@@ -164,6 +164,15 @@
         <!-- notice that we are ignoring attributes here, only looking at content! -->
     </xsl:template>
     
+    <xsl:template match="Resources">
+        <!-- sort resource elements -->
+        <xsl:copy>
+            <xsl:apply-templates>
+                <xsl:sort select="concat(name(),ResourceLink/@ArchiveHandle,ResourceLink/text())"></xsl:sort>
+            </xsl:apply-templates>
+        </xsl:copy>
+    </xsl:template>
+    
     <!-- ResourceId and ResourceRef -->
     
     <xsl:template match="MediaFile|WrittenResource" mode="make-resource-id">
