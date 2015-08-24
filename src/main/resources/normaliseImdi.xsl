@@ -196,7 +196,7 @@
     </xsl:template>
     
     <xsl:template match="WrittenResource/@ResourceId|MediaFile/@ResourceId">
-        <xsl:if test="normalize-space(.) != '' and (//Actor[@ResourceRef = current()]|//Source[contains(@ResourceRefs,current())])">
+        <xsl:if test="normalize-space(.) != '' and (//Actor[@ResourceRef = current()]|//Language[@ResourceRef = current()]|//Source[contains(@ResourceRefs,current())])">
             <!-- only keep resource id if there is a reference to it from a source or actor -->
             <xsl:variable name="id">
                 <xsl:apply-templates select="parent::MediaFile|parent::WrittenResource" mode="make-resource-id" />
@@ -207,7 +207,7 @@
         </xsl:if>
     </xsl:template>
     
-    <xsl:template match="Actor/@ResourceRef">
+    <xsl:template match="Actor/@ResourceRef|Language/@ResourceRef">
         <xsl:if test="normalize-space(.) != ''">
             <xsl:variable name="resource" select="//MediaFile[@ResourceId=current()]|//WrittenResource[@ResourceId=current()]"/>
             <xsl:if test="$resource">

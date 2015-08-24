@@ -10,7 +10,22 @@
                         <scenarioAssociation-array>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/dest/lac_data/perniss/Corpusstructure/set_1.cmdi.imdi</String>
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/dbd_data/aliesm/Other/Metadata/DBD_DUT_14_19_06_034.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>imdi2cmdi</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/lac_data/perniss/Corpusstructure/set_1.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
@@ -40,7 +55,7 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/lac_data/perniss/Corpusstructure/set_1.imdi</String>
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/dest/lac_data/perniss/Corpusstructure/set_1.cmdi.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
@@ -1487,21 +1502,6 @@
                                 <field name="scenarioIds">
                                     <list>
                                         <String>cmdi2imdi</String>
-                                    </list>
-                                </field>
-                                <field name="scenarioTypes">
-                                    <list>
-                                        <String>XSL</String>
-                                    </list>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="url">
-                                    <String>../../../../Desktop/imdidiff/BSL_CN_lex.cmdi.imdi</String>
-                                </field>
-                                <field name="scenarioIds">
-                                    <list>
-                                        <String>normaliseImdi.xsl</String>
                                     </list>
                                 </field>
                                 <field name="scenarioTypes">
