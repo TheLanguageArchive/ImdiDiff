@@ -19,7 +19,7 @@
             <xsl:apply-templates select="@*" />
             <xsl:apply-templates select="node()[name()='Description']">
                 <!-- Sort descriptions by value -->
-                <xsl:sort select="concat(normalize-space(@Link),normalize-space(@ArchiveHandle))" />
+                <xsl:sort select="concat(normalize-space(replace(@Link,'.*/','')),normalize-space(@ArchiveHandle))" />
             </xsl:apply-templates>
             
             <xsl:if test="name() = 'Session'">
