@@ -27,11 +27,17 @@
                 <xsl:apply-templates select="." mode="copy-content-infolinks" />
             </xsl:if>
             
+            <xsl:if test="name() = 'Corpus'">
+                <xsl:for-each-group select="CorpusLink" group-by="concat(@ArchiveHandle,@Name,text())">
+                    <xsl:apply-templates select="." />
+                </xsl:for-each-group>
+            </xsl:if>
+            
             <xsl:apply-templates select="node()[name()='Key']">
                 <!-- Sort descriptions by value -->
                 <xsl:sort select="concat(@Name, text())" />
             </xsl:apply-templates>
-            <xsl:apply-templates select="node()[not(name()='Description' or name()='Key')]" />
+            <xsl:apply-templates select="node()[not(name()='Description' or name()='Key' or name()='CorpusLink')]" />
         </xsl:copy>
     </xsl:template>
         
