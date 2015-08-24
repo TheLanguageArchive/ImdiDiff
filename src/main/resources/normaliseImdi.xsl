@@ -58,6 +58,13 @@
         <xsl:call-template name="copy-description"/>
     </xsl:template>
     
+    <xsl:template priority="60" match="Actor/Description|Languages/Description">
+        <!-- only the content of these descriptions should be kept --> 
+        <xsl:if test="normalize-space(.) != ''">
+            <Description><xsl:value-of select="." /></Description>
+        </xsl:if>
+    </xsl:template>
+    
     <xsl:template name="copy-description">
         <xsl:if test="normalize-space(text()) != '' or normalize-space(@Link) != ''">
             <xsl:copy>
