@@ -67,7 +67,7 @@
         <!-- only the content and language code of these descriptions should be kept --> 
         <xsl:if test="normalize-space(.) != ''">
             <Description>
-                <xsl:if test="normalize-space(@LanguageId) != ''">
+                <xsl:if test="not(normalize-space(@LanguageId) = ('', 'Unspecified', 'Unknown'))">
                     <xsl:apply-templates select="@LanguageId"/>
                 </xsl:if>
                 <xsl:value-of select="." />
@@ -79,7 +79,7 @@
         <xsl:if test="normalize-space(text()) != '' or normalize-space(@Link) != ''">
             <xsl:copy>
                 <!-- Only keep language ID if there is text content -->
-                <xsl:if test="normalize-space(@LanguageId) != '' and normalize-space(text()) != ''">
+                <xsl:if test="not(normalize-space(@LanguageId) = ('', 'Unspecified', 'Unknown')) and normalize-space(text()) != ''">
                     <xsl:apply-templates select="@LanguageId"/>
                 </xsl:if>
                 <!-- keep @Link -->
