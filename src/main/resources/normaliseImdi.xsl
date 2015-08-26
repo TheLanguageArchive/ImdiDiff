@@ -17,15 +17,22 @@
         <!-- base case: copy all child nodes and attributes recursively -->
         <xsl:copy>
             <xsl:apply-templates select="@*" />
-            <xsl:apply-templates select="node()[name()='Description']">
-                <!-- Sort descriptions by value -->
-                <xsl:sort select="concat(normalize-space(replace(@Link,'.*/','')),normalize-space(@ArchiveHandle))" />
-            </xsl:apply-templates>
             
-            <xsl:if test="name() = 'Session'">
-                <!-- Copy info link descriptions from //Content to the appropriate place -->
-                <xsl:apply-templates select="." mode="copy-content-infolinks" />
-            </xsl:if>
+            <!-- Gather descriptions ... -->
+            <xsl:variable name="descriptions">
+             <xsl:apply-templates select="node()[name()='Description']" />             
+             <xsl:if test="name() = 'Session'">
+                 <!-- Copy info link descriptions from //Content to the appropriate place -->
+                 <xsl:apply-templates select="." mode="copy-content-infolinks" />
+             </xsl:if>
+            </xsl:variable>
+            
+            <!-- Sort the combined descriptions -->
+            <xsl:for-each select="$descriptions/Description">
+                <!-- Sort descriptions by value -->
+                <xsl:sort select="concat(normalize-space(replace(replace(.,'/$',''),'.*/','')),normalize-space(@ArchiveHandle),text())" />
+                <xsl:copy-of select="." />
+            </xsl:for-each>
             
             <xsl:if test="name() = 'Corpus'">
                 <xsl:for-each-group select="CorpusLink" group-by="concat(@ArchiveHandle,@Name,text())">
@@ -44,8 +51,6 @@
     <xsl:template match="/METATRANSCRIPT/Session" mode="copy-content-infolinks">        
         <!-- Move InfoLinks in Content to Session level -->
         <xsl:for-each select="/METATRANSCRIPT/Session/MDGroup/Content/Description[normalize-space(@Link) != '']">
-            <!-- Sort descriptions by value -->
-            <xsl:sort select="concat(normalize-space(@Link),normalize-space(@ArchiveHandle))" />
             <xsl:call-template name="copy-description" />
         </xsl:for-each>
     </xsl:template>
@@ -58,10 +63,15 @@
         <xsl:call-template name="copy-description"/>
     </xsl:template>
     
-    <xsl:template priority="60" match="Actor/Description|Languages/Description">
-        <!-- only the content of these descriptions should be kept --> 
+    <xsl:template priority="60" match="Actor/Description|Languages/Description|Language/Description">
+        <!-- only the content and language code of these descriptions should be kept --> 
         <xsl:if test="normalize-space(.) != ''">
-            <Description><xsl:value-of select="." /></Description>
+            <Description>
+                <xsl:if test="normalize-space(@LanguageId) != ''">
+                    <xsl:apply-templates select="@LanguageId"/>
+                </xsl:if>
+                <xsl:value-of select="." />
+            </Description>
         </xsl:if>
     </xsl:template>
     
@@ -148,7 +158,7 @@
     
     <xsl:template match="@Link[parent::Description or parent::description]">
         <!-- Remove everything up to last slash from resource link -->
-        <xsl:attribute name="Link" select="replace(.,'.*/','')" />
+        <xsl:attribute name="Link" select="replace(replace(.,'/$',''),'.*/','')" />
     </xsl:template>    
     
     <xsl:template match="MediaResourceLink/@ArchiveHandle">
@@ -288,6 +298,7 @@
         |WrittenResource/Date
         |Actor/Age
         |Actor/BirthDate
+        |CounterPosition/End
         |Key[@Link='http://www.mpi.nl/CGN/Schema/CGN.communitySize.xml' and @Name='CGN.education.placesize']
         |Key[@Link='http://www.mpi.nl/CGN/Schema/CGN.EducationLevel.xml' and @Name='CGN.education.level']
         |Key[@Link='http://www.mpi.nl/CGN/Schema/CGN.Language.xml' and @Name='CGN.firstLang']
