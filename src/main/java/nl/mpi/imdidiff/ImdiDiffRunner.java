@@ -75,4 +75,43 @@ public class ImdiDiffRunner {
         return paths;
     }
 
+    public static boolean matchesIgnorePath(Multimap<Path, String> ignorepaths, Path origSource, String targetPath, String targetCode) {
+        if (targetPath != null) { //null paths cannot match
+            final Path sourceAbsolutePath = origSource.toAbsolutePath();
+            // do for both referenced path and absolutePath
+            for (Path source : new Path[]{origSource, sourceAbsolutePath}) {
+                if (ignorepaths.containsKey(source)) {
+                    for (String rule : ignorepaths.get(source)) {
+                        String[] tokens = rule.split(":", 2);
+                        if (tokens.length == 2) {
+                            final String id = tokens[0];
+                            //rule has code, only match if it matches target code
+                            if (targetCode != null && targetCode.equals(id)) {
+                                final String pathExpression = tokens[1];
+                                if (expressionMatchesPath(pathExpression, targetPath)) {
+                                    return true;
+                                }
+                            }
+                        } else {
+                            // no code specified, ignore target code
+                            if (tokens.length != 1) {
+                                throw new RuntimeException("Unexpected number of tokens in " + rule);
+                            }
+                            final String pathExpression = tokens[0];
+                            if (expressionMatchesPath(pathExpression, targetPath)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean expressionMatchesPath(final String expression, String targetPath) {
+        return expression.equals("*") //matches everything
+                || targetPath.matches(expression); //exact match
+    }
+
 }

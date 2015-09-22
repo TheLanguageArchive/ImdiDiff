@@ -125,14 +125,12 @@ class ImdiDiffVisitor extends SimpleFileVisitor<Path> {
     }
 
     private boolean shouldSkip(Path source, String nodePath) {
-        final Path sourceAbsolutePath = source.toAbsolutePath();
         // skip node path if an entry exists for the file
-        return (ignorepaths.containsKey(source) && ignorepaths.get(source).contains(nodePath))
-                || (ignorepaths.containsKey(sourceAbsolutePath) && ignorepaths.get(sourceAbsolutePath).contains(nodePath));
+        return ImdiDiffRunner.matchesIgnorePath(ignorepaths, source, nodePath, null);
     }
 
     private boolean isImdiFile(Path source) {
         return source.getFileName().toString().toLowerCase().endsWith(".imdi");
     }
-
+    
 }
