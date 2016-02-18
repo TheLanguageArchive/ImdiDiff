@@ -262,6 +262,38 @@
         </xsl:if>
     </xsl:template>   
     
+    <xsl:template match="Age" priority="10">
+        <xsl:if test="normalize-space(.) != 'Unspecified'">
+            <Age>
+                <!-- age example: 4;06.00 -->
+                <!-- range example: 22;6/22;7 -->
+                <xsl:analyze-string 
+                    select="." 
+                    regex="^([0-9]{{1,3}})(;(0?[0-9]|1[01])(\.(0?[0-9]|[12][0-9]|30))?)?/([0-9]{{1,3}})(;(0?[0-9]|1[01])(\.(0?[0-9]|[12][0-9]|30))?)?$">
+                    <xsl:matching-substring>
+                        <!--age range -->
+                        <xsl:value-of select="number(regex-group(1))"/>;<xsl:value-of select="number(regex-group(3))"/>.<xsl:value-of select="number(regex-group(5))"/><xsl:value-of select="'/'"/>
+                        <xsl:value-of select="number(regex-group(6))"/>;<xsl:value-of select="number(regex-group(8))"/>.<xsl:value-of select="number(regex-group(10))"/>
+                    </xsl:matching-substring>
+                    <xsl:non-matching-substring>
+                        <xsl:analyze-string 
+                            select="." 
+                            regex="^([0-9]{{1,3}})(;(0?[0-9]|1[01])(\.(0?[0-9]|[12][0-9]|30))?)?$">
+                            <xsl:matching-substring>
+                                <!--age range -->
+                                <xsl:value-of select="number(regex-group(1))"/>;<xsl:value-of select="number(regex-group(3))"/>.<xsl:value-of select="number(regex-group(5))"/>
+                            </xsl:matching-substring>
+                            <xsl:non-matching-substring>
+                                <!-- Neither exact age or age range -->
+                                <xsl:value-of select="." />
+                            </xsl:non-matching-substring>
+                        </xsl:analyze-string>
+                    </xsl:non-matching-substring>
+                </xsl:analyze-string>
+            </Age>
+        </xsl:if>
+    </xsl:template>
+    
     <!-- Exceptional cases where an empty value should get normalised to 'unspecified' (these are generally of the closed vocabulary type) -->     
     <xsl:template match="
         //Anonymized	
