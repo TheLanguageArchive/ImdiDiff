@@ -262,8 +262,8 @@
         </xsl:if>
     </xsl:template>   
     
-    <xsl:template match="Age" priority="10">
-        <xsl:if test="normalize-space(.) != 'Unspecified'">
+    <xsl:template match="Age" priority="20">
+        <xsl:if test="normalize-space(.) != 'Unspecified' and normalize-space(.) != ''">
             <Age>
                 <!-- age example: 4;06.00 -->
                 <!-- range example: 22;6/22;7 -->
