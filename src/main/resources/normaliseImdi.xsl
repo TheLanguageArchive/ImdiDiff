@@ -152,8 +152,14 @@
     </xsl:template>
     
     <xsl:template match="ResourceLink/text() | MediaResourceLink/text()">
-        <!-- Remove everything up to last slash from resource link -->
-        <xsl:value-of select="replace(.,'.*/','')" />
+        <xsl:variable name="mediaResourceLink">
+            <xsl:for-each select="tokenize(.,' ')">
+            <!-- Remove everything up to last slash from resource link -->
+                <xsl:value-of select="replace(.,'.*/','')" />
+                <xsl:text> </xsl:text>
+            </xsl:for-each>
+        </xsl:variable>
+        <xsl:value-of select="normalize-space($mediaResourceLink)" />
     </xsl:template>
     
     <xsl:template match="@Link[parent::Description or parent::description]">
