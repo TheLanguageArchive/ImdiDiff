@@ -219,7 +219,7 @@
     </xsl:template>
     
     <xsl:template match="WrittenResource/@ResourceId|MediaFile/@ResourceId">
-        <xsl:if test="normalize-space(.) != '' and (//Actor[@ResourceRef = current()]|//Language[@ResourceRef = current()]|//Source[contains(@ResourceRefs,current())])">
+        <xsl:if test="normalize-space(.) != '' and (//Actor[contains(@ResourceRef, current())]|//Language[contains(@ResourceRef, current())]|//Source[contains(@ResourceRefs,current())])">
             <!-- only keep resource id if there is a reference to it from a source or actor -->
             <xsl:variable name="id">
                 <xsl:apply-templates select="parent::MediaFile|parent::WrittenResource" mode="make-resource-id" />
@@ -232,12 +232,20 @@
     
     <xsl:template match="Actor/@ResourceRef|Language/@ResourceRef">
         <xsl:if test="normalize-space(.) != ''">
-            <xsl:variable name="resource" select="//MediaFile[@ResourceId=current()]|//WrittenResource[@ResourceId=current()]"/>
-            <xsl:if test="$resource">
-                <xsl:attribute name="ResourceRef">
-                    <xsl:apply-templates select="$resource" mode="make-resource-id" />
-                </xsl:attribute>
-            </xsl:if>
+            <xsl:variable name="mf" select="//MediaFile" />
+            <xsl:variable name="wr" select="//WrittenResource" />
+            <xsl:variable name="resourceRef">
+                <xsl:for-each select="tokenize(., '\s')">
+                    <xsl:variable name="resource" select="$mf[@ResourceId=current()]|$wr[@ResourceId=current()]"/>
+                    <xsl:if test="$resource">
+                        <xsl:apply-templates select="$resource" mode="make-resource-id" />
+                        <xsl:text> </xsl:text>
+                    </xsl:if>
+                </xsl:for-each>
+            </xsl:variable>
+            <xsl:attribute name="ResourceRef">
+                <xsl:value-of select="normalize-space($resourceRef)" />
+            </xsl:attribute>
         </xsl:if>
     </xsl:template>
     
