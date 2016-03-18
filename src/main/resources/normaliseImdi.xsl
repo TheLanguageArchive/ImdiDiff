@@ -243,9 +243,11 @@
                     </xsl:if>
                 </xsl:for-each>
             </xsl:variable>
-            <xsl:attribute name="ResourceRef">
-                <xsl:value-of select="normalize-space($resourceRef)" />
-            </xsl:attribute>
+            <xsl:if test="normalize-space($resourceRef) != ''">
+                <xsl:attribute name="ResourceRef">
+                    <xsl:value-of select="normalize-space($resourceRef)" />
+                </xsl:attribute>
+            </xsl:if>
         </xsl:if>
     </xsl:template>
     
