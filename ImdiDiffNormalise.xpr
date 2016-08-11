@@ -1,13 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project version="16.0">
+<project version="18.0">
     <meta>
         <filters directoryPatterns="" filePatterns="" positiveFilePatterns="" showHiddenFiles="false"/>
         <options>
-            <serialized version="16.0" xml:space="preserve">
+            <serialized version="18.0" xml:space="preserve">
                 <serializableOrderedMap>
                     <entry>
                         <String>scenario.associations</String>
                         <scenarioAssociation-array>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../../../Applications/oxygenDeveloper/Oxygen%20XML%20Developer.app/CNGT2311-CNGT2312.imdi.cmdi.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>normaliseImdi.xsl</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../../../Applications/oxygenDeveloper/Oxygen%20XML%20Developer.app/CNGT2311-CNGT2312.imdi.cmdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>cmdi2imdi</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>https://corpus1.mpi.nl/media-archive/NGT/Regions/Voorburg/Spot_the_difference/Metadata/CNGT2311-CNGT2312.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>normaliseImdi.xsl</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/dobes_data/Tangsa_Tai_Singpho/Tangsa/Rera/Stories/Phulbari_stories/Metadata/Gaha_story_2.imdi.cmdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>cmdi2imdi</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/dobes_data/Tangsa_Tai_Singpho/Tangsa/Rera/Stories/Phulbari_stories/Metadata/Gaha_story_2.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>imdi2cmdi</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/Lluaky7.imdi.cmdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>cmdi2imdi</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/Lluaky7.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>imdi2cmdi</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>src/main/resources/normaliseImdi.xsl</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>ccr2dcif%20(1)</String>
+                                        <String>ccr2dcif%20 (imdi roundtrip)</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XML</String>
+                                        <String>XML</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="url">
                                     <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/dobes_data/Savosavo/Savosavo/Elicited/Information_structure_stimuli/Drawings/Data/Metadata/pi_pictures_svs.imdi</String>
@@ -35,23 +157,6 @@
                                 <field name="scenarioTypes">
                                     <list>
                                         <String>XSL</String>
-                                    </list>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="url">
-                                    <String>src/main/resources/normaliseImdi.xsl</String>
-                                </field>
-                                <field name="scenarioIds">
-                                    <list>
-                                        <String>ccr2dcif%20(1)</String>
-                                        <String>ccr2dcif%20 (imdi roundtrip)</String>
-                                    </list>
-                                </field>
-                                <field name="scenarioTypes">
-                                    <list>
-                                        <String>XML</String>
-                                        <String>XML</String>
                                     </list>
                                 </field>
                             </scenarioAssociation>
@@ -1450,66 +1555,6 @@
                                     </list>
                                 </field>
                             </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/dbd_data/Papiamentu/Parent-Child_Reading/Klop_klop_wie_is_daar_/Metadata/Klop_LuFe.imdi</String>
-                                </field>
-                                <field name="scenarioIds">
-                                    <list>
-                                        <String>normaliseImdi.xsl</String>
-                                    </list>
-                                </field>
-                                <field name="scenarioTypes">
-                                    <list>
-                                        <String>XSL</String>
-                                    </list>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/dobes_data/Center/Lenguas_-_Languages/Huitoto/Dialecto_m_n_ka/Discurso_ritual_-_Rit._disc./Metadata/HES02-AK.imdi</String>
-                                </field>
-                                <field name="scenarioIds">
-                                    <list>
-                                        <String>normaliseImdi.xsl</String>
-                                    </list>
-                                </field>
-                                <field name="scenarioTypes">
-                                    <list>
-                                        <String>XSL</String>
-                                    </list>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/dobes_data/Center/Lenguas_-_Languages/Huitoto/Dialecto_m_n_ka/Discurso_ritual_-_Rit._disc./Metadata/HES02-AK.imdi</String>
-                                </field>
-                                <field name="scenarioIds">
-                                    <list>
-                                        <String>normaliseImdi.xsl</String>
-                                    </list>
-                                </field>
-                                <field name="scenarioTypes">
-                                    <list>
-                                        <String>XSL</String>
-                                    </list>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/lac_data/sicoli/Zapotec_and_Chatino_Survey/Chatino/Yaitepec_Santiago/Metadata/Yaitepec_Chatino_Auto_Application.imdi</String>
-                                </field>
-                                <field name="scenarioIds">
-                                    <list>
-                                        <String>imdi2cmdi</String>
-                                    </list>
-                                </field>
-                                <field name="scenarioTypes">
-                                    <list>
-                                        <String>XSL</String>
-                                    </list>
-                                </field>
-                            </scenarioAssociation>
                         </scenarioAssociation-array>
                     </entry>
                     <entry>
@@ -1559,6 +1604,9 @@
                                     <Boolean>false</Boolean>
                                 </field>
                                 <field name="outputFile">
+                                    <null/>
+                                </field>
+                                <field name="outputResource">
                                     <null/>
                                 </field>
                                 <field name="openOtherLocationInBrowser">
@@ -1666,6 +1714,9 @@
                                 <field name="outputFile">
                                     <File>${cfne}.imdi</File>
                                 </field>
+                                <field name="outputResource">
+                                    <String>${cfne}.imdi</String>
+                                </field>
                                 <field name="openOtherLocationInBrowser">
                                     <Boolean>false</Boolean>
                                 </field>
@@ -1747,6 +1798,9 @@
                                     <Boolean>false</Boolean>
                                 </field>
                                 <field name="outputFile">
+                                    <null/>
+                                </field>
+                                <field name="outputResource">
                                     <null/>
                                 </field>
                                 <field name="openOtherLocationInBrowser">
@@ -1832,6 +1886,9 @@
                                 <field name="outputFile">
                                     <File>${cfne}.cmdi</File>
                                 </field>
+                                <field name="outputResource">
+                                    <String>${cfne}.cmdi</String>
+                                </field>
                                 <field name="openOtherLocationInBrowser">
                                     <Boolean>false</Boolean>
                                 </field>
@@ -1915,6 +1972,9 @@
                                 <field name="outputFile">
                                     <File>${cfn}.norm.imdi</File>
                                 </field>
+                                <field name="outputResource">
+                                    <String>${cfn}.norm.imdi</String>
+                                </field>
                                 <field name="openOtherLocationInBrowser">
                                     <Boolean>false</Boolean>
                                 </field>
@@ -1996,6 +2056,9 @@
                                     <Boolean>false</Boolean>
                                 </field>
                                 <field name="outputFile">
+                                    <null/>
+                                </field>
+                                <field name="outputResource">
                                     <null/>
                                 </field>
                                 <field name="openOtherLocationInBrowser">
@@ -2081,6 +2144,9 @@
                                 <field name="outputFile">
                                     <null/>
                                 </field>
+                                <field name="outputResource">
+                                    <null/>
+                                </field>
                                 <field name="openOtherLocationInBrowser">
                                     <Boolean>false</Boolean>
                                 </field>
@@ -2162,6 +2228,9 @@
                                     <Boolean>false</Boolean>
                                 </field>
                                 <field name="outputFile">
+                                    <null/>
+                                </field>
+                                <field name="outputResource">
                                     <null/>
                                 </field>
                                 <field name="openOtherLocationInBrowser">
@@ -2246,6 +2315,9 @@
                                 </field>
                                 <field name="outputFile">
                                     <File>/tmp/sets.html</File>
+                                </field>
+                                <field name="outputResource">
+                                    <String>/tmp/sets.html</String>
                                 </field>
                                 <field name="openOtherLocationInBrowser">
                                     <Boolean>false</Boolean>

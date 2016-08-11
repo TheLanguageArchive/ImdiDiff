@@ -151,6 +151,16 @@
         </xsl:choose>
     </xsl:template>
     
+    <xsl:template match="Language/Id" priority="20">
+        <Id>
+        <xsl:choose>
+            <xsl:when test="normalize-space(.) = ''">ISO639-3:und</xsl:when>
+            <!-- TODO: RFC -->
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        </Id>
+    </xsl:template>
+    
     <xsl:template match="ResourceLink/text() | MediaResourceLink/text()">
         <xsl:variable name="mediaResourceLink">
             <xsl:for-each select="tokenize(.,' ')">
