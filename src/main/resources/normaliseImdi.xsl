@@ -13,6 +13,10 @@
     <xsl:output method="xml" indent="yes"/>
     <xsl:strip-space elements="*"/>
     
+    <xsl:param name="sil-to-iso-url" select="'https://raw.githubusercontent.com/TheLanguageArchive/MetadataTranslator/master/Translator/src/main/resources/templates/imdi2cmdi/sil_to_iso6393.xml'" />
+    <xsl:variable name="sil-lang-top" select="document($sil-to-iso-url)/sil:languages"/>
+    <xsl:key name="sil-lookup" match="sil:lang" use="sil:sil"/>
+    
     <xsl:template match="node() | @*">
         <!-- base case: copy all child nodes and attributes recursively -->
         <xsl:copy>
@@ -152,11 +156,30 @@
     </xsl:template>
     
     <xsl:template match="Language/Id" priority="20">
+        <xsl:variable name="codeset" select="replace(substring-before(.,':'),' ','')"/>
+        <xsl:variable name="codestr" select="substring-after(.,':')"/>
         <Id>
         <xsl:choose>
             <xsl:when test="normalize-space(.) = ''">und</xsl:when>
-            <!-- TODO: RFC -->
-            <xsl:otherwise><xsl:value-of select="substring-after(.,':')" /></xsl:otherwise>
+            <xsl:when test="$codeset='RFC1766'">
+                <xsl:choose>
+                    <xsl:when test="starts-with($codestr,'x-sil-')">
+                        <xsl:variable name="iso" select="key('sil-lookup', lower-case(replace($codestr, 'x-sil-', '')), $sil-lang-top)/sil:iso"/>
+                        <xsl:choose>
+                            <xsl:when test="$iso!='xxx'">
+                                <xsl:value-of select="$iso"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="'und'"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="'und'"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+            <xsl:otherwise><xsl:value-of select="$codestr" /></xsl:otherwise>
         </xsl:choose>
         </Id>
     </xsl:template>
