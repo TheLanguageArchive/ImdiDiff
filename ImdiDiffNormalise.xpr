@@ -10,7 +10,7 @@
                         <scenarioAssociation-array>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/casual_speech/Nijmegen_Corpus_of_Spanish_English/Metadata/M03_Informal.imdi</String>
+                                    <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/lac_data/enfield/Interaction/Interaction_2011/Metadata/INTCN_111202t.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
@@ -25,7 +25,7 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/casual_speech/Nijmegen_Corpus_of_Spanish_English/Metadata/M03_Informal.imdi</String>
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/lac_data/enfield/Interaction/Interaction_2011/Metadata/INTCN_111202t.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
@@ -52,6 +52,36 @@
                                     <list>
                                         <String>XML</String>
                                         <String>XML</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/casual_speech/Nijmegen_Corpus_of_Spanish_English/Metadata/M03_Informal.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>normaliseImdi.xsl</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/casual_speech/Nijmegen_Corpus_of_Spanish_English/Metadata/M03_Informal.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>normaliseImdi.xsl</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
                                     </list>
                                 </field>
                             </scenarioAssociation>

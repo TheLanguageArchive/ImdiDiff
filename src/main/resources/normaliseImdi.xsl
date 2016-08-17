@@ -168,6 +168,7 @@
         <Id>
         <xsl:choose>
             <xsl:when test="normalize-space(.) = ''">und</xsl:when>
+            <xsl:when test="normalize-space(.) = 'Unspecified'">und</xsl:when>
             <xsl:when test="$codeset='ISO639-2'">
                 <xsl:choose>
                     <xsl:when test="$codestr='xxx'">
@@ -386,7 +387,6 @@
         |Methodology	
         |MotherTongue	
         |Language/Name
-        |Language/Id
         |PlanningType	
         |PrimaryLanguage	
         |Quality	
