@@ -5,6 +5,7 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:sil="http://www.sil.org/"
+    xmlns:iso="http://www.iso.org/"
     exclude-result-prefixes="xs"
     xpath-default-namespace="http://www.mpi.nl/IMDI/Schema/IMDI"
     
@@ -16,6 +17,12 @@
     <xsl:param name="sil-to-iso-url" select="'https://raw.githubusercontent.com/TheLanguageArchive/MetadataTranslator/master/Translator/src/main/resources/templates/imdi2cmdi/sil_to_iso6393.xml'" />
     <xsl:variable name="sil-lang-top" select="document($sil-to-iso-url)/sil:languages"/>
     <xsl:key name="sil-lookup" match="sil:lang" use="sil:sil"/>
+    
+    
+    <xsl:variable name="iso-lang-uri" select="'https://raw.githubusercontent.com/TheLanguageArchive/MetadataTranslator/master/Translator/src/main/resources/templates/imdi2cmdi/iso2iso.xml'"/>
+    <xsl:variable name="iso-lang-doc" select="document($iso-lang-uri)"/>
+    <xsl:variable name="iso-lang-top" select="$iso-lang-doc/iso:m"/>
+    <xsl:key name="iso639_2-lookup" match="iso:e" use="iso:b|iso:t"/>
     
     <xsl:template match="node() | @*">
         <!-- base case: copy all child nodes and attributes recursively -->
@@ -161,6 +168,25 @@
         <Id>
         <xsl:choose>
             <xsl:when test="normalize-space(.) = ''">und</xsl:when>
+            <xsl:when test="$codeset='ISO639-2'">
+                <xsl:choose>
+                    <xsl:when test="$codestr='xxx'">
+                        <xsl:value-of select="'und'"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:variable name="iso" select="key('iso639_2-lookup', lower-case($codestr), $iso-lang-top)/iso:i"/>
+                        <xsl:choose>
+                            <xsl:when test="$iso!='xxx'">
+                                <xsl:value-of select="$iso"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:message>WRN: [<xsl:value-of select="$codestr"/>] is not a ISO 639-2 language code, falling back to und.</xsl:message>
+                                <xsl:value-of select="'und'"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
             <xsl:when test="$codeset='RFC1766'">
                 <xsl:choose>
                     <xsl:when test="starts-with($codestr,'x-sil-')">
