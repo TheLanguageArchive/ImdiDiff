@@ -14,12 +14,12 @@
     <xsl:output method="xml" indent="yes"/>
     <xsl:strip-space elements="*"/>
     
-    <xsl:param name="sil-to-iso-url" select="'https://raw.githubusercontent.com/TheLanguageArchive/MetadataTranslator/master/Translator/src/main/resources/templates/imdi2cmdi/sil_to_iso6393.xml'" />
+    <xsl:param name="sil-to-iso-url" select="'https://raw.githubusercontent.com/TheLanguageArchive/MetadataTranslator/development/Translator/src/main/resources/templates/imdi2cmdi/sil_to_iso6393.xml'" />
     <xsl:variable name="sil-lang-top" select="document($sil-to-iso-url)/sil:languages"/>
     <xsl:key name="sil-lookup" match="sil:lang" use="sil:sil"/>
     
     
-    <xsl:variable name="iso-lang-uri" select="'https://raw.githubusercontent.com/TheLanguageArchive/MetadataTranslator/master/Translator/src/main/resources/templates/imdi2cmdi/iso2iso.xml'"/>
+    <xsl:variable name="iso-lang-uri" select="'https://raw.githubusercontent.com/TheLanguageArchive/MetadataTranslator/development/Translator/src/main/resources/templates/imdi2cmdi/iso2iso.xml'"/>
     <xsl:variable name="iso-lang-doc" select="document($iso-lang-uri)"/>
     <xsl:variable name="iso-lang-top" select="$iso-lang-doc/iso:m"/>
     <xsl:key name="iso639_2-lookup" match="iso:e" use="iso:b|iso:t"/>
@@ -163,12 +163,14 @@
     </xsl:template>
     
     <xsl:template match="Language/Id" priority="20">
-        <xsl:variable name="codeset" select="replace(substring-before(.,':'),' ','')"/>
-        <xsl:variable name="codestr" select="substring-after(.,':')"/>
+        <xsl:variable name="codeset" select="normalize-space(replace(substring-before(.,':'),' ',''))"/>
+        <xsl:variable name="codestr" select="normalize-space(substring-after(.,':'))"/>
         <Id>
         <xsl:choose>
             <xsl:when test="normalize-space(.) = ''">und</xsl:when>
             <xsl:when test="normalize-space(.) = 'Unspecified'">und</xsl:when>
+            <xsl:when test="normalize-space(.) = 'Unknown'">und</xsl:when>
+            <xsl:when test="normalize-space(.) = 'xxx'">und</xsl:when>
             <xsl:when test="$codeset='ISO639-2'">
                 <xsl:choose>
                     <xsl:when test="$codestr='xxx'">
@@ -181,7 +183,6 @@
                                 <xsl:value-of select="$iso"/>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:message>WRN: [<xsl:value-of select="$codestr"/>] is not a ISO 639-2 language code, falling back to und.</xsl:message>
                                 <xsl:value-of select="'und'"/>
                             </xsl:otherwise>
                         </xsl:choose>
