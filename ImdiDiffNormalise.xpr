@@ -10,7 +10,7 @@
                         <scenarioAssociation-array>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/lag_data/Synaesthesia/Metadata/SynaesthesiaExomes.imdi</String>
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/dobes_data/Tangsa_Tai_Singpho/Tangsa/Ngaimong/Metadata/Ngaimong_-_reading_the_Presbyterian_hymn_book_2.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
@@ -25,7 +25,7 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/lag_data/Synaesthesia/Metadata/SynaesthesiaExomes.imdi</String>
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/lac_data/vos/Kata_Kolok/_Semi-_Spontaneous/Dialogues/Metadata/GD30aug7.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
@@ -57,7 +57,22 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/dobes_data/TOFA/Language/Tuha/Metadata/TUDH47.imdi</String>
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/dest/lac_data/vos/Kata_Kolok/_Semi-_Spontaneous/Dialogues/Metadata/GD30aug7.cmdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>cmdi2imdi</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/cmdi-conversion-checker/current/imdi-out/lag_data/Synaesthesia/Metadata/SynaesthesiaExomes.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
@@ -72,11 +87,26 @@
                             </scenarioAssociation>
                             <scenarioAssociation>
                                 <field name="url">
-                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/dest/lac_data/vos/Kata_Kolok/_Semi-_Spontaneous/Dialogues/Metadata/GD30aug7.cmdi</String>
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/lag_data/Synaesthesia/Metadata/SynaesthesiaExomes.imdi</String>
                                 </field>
                                 <field name="scenarioIds">
                                     <list>
-                                        <String>cmdi2imdi</String>
+                                        <String>normaliseImdi.xsl</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
+                                    <String>../../../../Desktop/imdidiff/files/imdi_to_cmdi/src/dobes_data/TOFA/Language/Tuha/Metadata/TUDH47.imdi</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>normaliseImdi.xsl</String>
                                     </list>
                                 </field>
                                 <field name="scenarioTypes">

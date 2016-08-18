@@ -164,13 +164,13 @@
     
     <xsl:template match="Language/Id" priority="20">
         <xsl:variable name="codeset" select="normalize-space(replace(substring-before(.,':'),' ',''))"/>
-        <xsl:variable name="codestr" select="normalize-space(substring-after(.,':'))"/>
+        <xsl:variable name="codestr" select="normalize-space(lower-case(substring-after(.,':')))"/>
         <Id>
         <xsl:choose>
             <xsl:when test="normalize-space(.) = ''">und</xsl:when>
-            <xsl:when test="normalize-space(.) = 'Unspecified'">und</xsl:when>
-            <xsl:when test="normalize-space(.) = 'Unknown'">und</xsl:when>
-            <xsl:when test="normalize-space(.) = 'xxx'">und</xsl:when>
+            <xsl:when test="normalize-space(lower-case(.)) = 'unspecified'">und</xsl:when>
+            <xsl:when test="normalize-space(lower-case(.)) = 'unknown'">und</xsl:when>
+            <xsl:when test="normalize-space(lower-case(.)) = 'xxx'">und</xsl:when>
             <xsl:when test="$codeset='ISO639-2'">
                 <xsl:choose>
                     <xsl:when test="$codestr='xxx'">
@@ -207,7 +207,16 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:when>
-            <xsl:otherwise><xsl:value-of select="$codestr" /></xsl:otherwise>
+            <xsl:otherwise>
+                <xsl:choose>
+                    <xsl:when test="$codestr='xxx'">
+                        <xsl:value-of select="'und'"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="$codestr" />
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:otherwise>
         </xsl:choose>
         </Id>
     </xsl:template>
