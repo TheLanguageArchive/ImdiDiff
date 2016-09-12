@@ -416,6 +416,8 @@
         |Actor/Age
         |Actor/BirthDate
         |CounterPosition/End
+        |TimePosition/Start
+        |TimePosition/End
         |Key[@Link='http://www.mpi.nl/CGN/Schema/CGN.communitySize.xml' and @Name='CGN.education.placesize']
         |Key[@Link='http://www.mpi.nl/CGN/Schema/CGN.EducationLevel.xml' and @Name='CGN.education.level']
         |Key[@Link='http://www.mpi.nl/CGN/Schema/CGN.Language.xml' and @Name='CGN.firstLang']
